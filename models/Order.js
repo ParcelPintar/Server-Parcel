@@ -26,4 +26,4 @@ const orderSchema = Schema({
   }
 })
 
-module.exports = mongoose.model('ParcelPintar', orderSchema)
+module.exports = mongoose.model('Order', orderSchema)

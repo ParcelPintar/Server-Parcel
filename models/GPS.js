@@ -15,7 +15,7 @@ const GPSSchema = Schema({
   }
 })
 
-module.exports = mongoose.model('ParcelPintar', GPSSchema)
+module.exports = mongoose.model('GPS', GPSSchema)
 
 // let GPS = new GPS({ 
 //   "loc": { 

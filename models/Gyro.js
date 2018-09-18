@@ -8,4 +8,4 @@ const gyroSchema = Schema({
   }
 })
 
-module.exports = mongoose.model('ParcelPintar', gyroSchema)
+module.exports = mongoose.model('Gyro', gyroSchema)
