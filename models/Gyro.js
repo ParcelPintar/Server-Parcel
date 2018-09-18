@@ -2,7 +2,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const gyroSchema = Schema({
-  threshold = Number
+  threshold = { 
+    type: Number,
+    required: true
+  }
 })
 
 module.exports = mongoose.model('ParcelPintar', gyroSchema)
