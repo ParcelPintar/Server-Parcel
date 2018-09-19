@@ -1,14 +1,15 @@
 const router = require("express").Router();
+const GPS = require('../controllers/gps');
 
 router
 	.route("/")
-	.get((req, res) => {})
-	.post((req, res) => {});
+	.get(GPS.getAllGPS)
+	.post(GPS.create);
 
 router
 	.route("/:id")
-	.get((req, res) => {})
-	.delete((req, res) => {})
-	.patch((req, res) => {});
+	.get(GPS.getGPSById)
+	.delete(GPS.remove)
+	.update(GPS.update);
 
 module.exports = router;
