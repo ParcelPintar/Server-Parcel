@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const orderSchema = Schema({
-  status: String,
+  status: String, // delayed, arrived, etc.
   sender: {
     type: Schema.Types.ObjectId, ref: 'User',
     required: true
@@ -23,7 +23,8 @@ const orderSchema = Schema({
     coordinates: {
       type: [Number]
     }
-  }
+  },
+  notes: String  // other things that might be a concern that related to the delivery
 })
 
 module.exports = mongoose.model('Order', orderSchema)
