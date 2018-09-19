@@ -95,6 +95,7 @@ describe("Users", function() {
 				.post(USER_REGISTER)
 				.send(args)
 				.end((err, res) => {
+					
 					expect(res).to.have.status(201);
 					expect(res.body).to.be.a("object");
 					expect(res.body.name).to.equal(args.name);
@@ -158,7 +159,7 @@ describe("Users", function() {
 		});
 		it("should return success message and token", done => {
 			let args = {
-				name: "eri",
+				name: "erih",
 				email: "joanlamrack@gmail.com",
 				password: "123400000"
 			};
@@ -167,7 +168,7 @@ describe("Users", function() {
 				.request(app)
 				.post(USER_REGISTER)
 				.send(args)
-				.end((err, res) => {console.log(err)
+				.end((err, res) => {
 					expect(res).to.have.status(201);
 					expect(res.body).to.be.a("object");
 					expect(res.body.name).to.equal(args.name);
@@ -177,7 +178,7 @@ describe("Users", function() {
 					chai
 						.request(app)
 						.post(USER_LOGIN)
-						.send({ email: args.email, password: args.email })
+						.send({ email: args.email, password: args.password })
 						.end((err, res) => {
 							expect(res).to.have.status(200);
 							expect(res.body).to.have.property("token");

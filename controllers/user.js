@@ -27,15 +27,14 @@ class UserController {
 
 		User.findOne({ email })
 			.then(userFound => {
-        console.log("ketemu nih", userFound)
 				if (userFound) {
 					let passwordIsMatch = AuthHelper.comparehash(
-						email+password,
+						password,
 						userFound.password
 					);
 					if (passwordIsMatch) {
 						let token = AuthHelper.createToken({
-							id: String(userFound._id),
+							id: userFound.id,
 							name: userFound.name,
 							email: userFound.email
 						});
@@ -44,14 +43,11 @@ class UserController {
 							token
 						});
 					} else {
-            console.log("Pasword not match", passwordIsMatch)
 						res.status(404).json({
 							error: "User not registered"
 						});
 					}
-				} else {
-          
-        console.log("error")
+				} else {          
 					res.status(404).json({
 						error: "User not registered"
 					});
