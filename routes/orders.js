@@ -1,18 +1,19 @@
 const router = require("express").Router();
+const Order = require('../controllers/order');
 
 router
 	.route("/")
-	.get((req, res) => {})
-	.post((req, res) => {});
+	.get(Order.getAllOrders)
+	.post(Order.create);
 
 router
 	.route("/:id")
-	.get((req, res) => {})
-	.delete((req, res) => {})
-	.patch((req, res) => {});
+	.get(Order.getOrderById)
+	.delete(Order.remove)
+	.update(Order.update);
 
-router.get("/me/receive", (req, res) => {});
+router.get("/me/receive", Order.getReceiveOrder);
 
-router.get("/me/send", (req, res) => {});
+router.get("/me/send", Order.getSendOrder);
 
 module.exports = router;
