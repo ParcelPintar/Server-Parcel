@@ -6,6 +6,7 @@ const GPSSchema = Schema({
     type: {
       type: String, // Don't do `{ location: { type: String } }`
       enum: ['Point'], // 'location.type' must be 'Point'
+      default: 'Point',
       required: true
     },
     coordinates: {
