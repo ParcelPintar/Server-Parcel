@@ -85,10 +85,10 @@ class UserController {
       })
   }
 
-  static getUser (req, res) {
-    const {email} = req.body
+  static getUserById (req, res) {
+    let userId = req.params.id;
 
-    User.findOne (email)
+    User.findById (userId)
       .populate('orders')
       .populate('receivers')
       .then(userFound => {
