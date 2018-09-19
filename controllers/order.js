@@ -1,5 +1,4 @@
 const Order = require('../models/Order');
-const AuthMiddleware = require('../middlewares/authMiddleware');
 
 class OrderController {
   constructor() {
@@ -84,6 +83,34 @@ class OrderController {
         res.status(200).json(orders)
       })
       .catch(err => {
+        res.status(400).json({
+          error: err.message
+        })
+      })
+  }
+
+  static update (req, res) {
+    let orderId = req.params.id;
+
+    Order.findByIdAndUpdate(orderId, {$set: req.body}, {new:true})
+      .then( updatedOrder => {
+        res.status(200).json(updatedOrder)
+      })
+      .catch( err => {
+        res.status(400).json({
+          error: err.message
+        })
+      })
+  }
+
+  static remove (req, res) {
+    let orderId = req.params.id;
+
+    Order.findByIdAndRemove(orderId)
+      .then( removedOrder => {
+        res.status(200).json(removedOrder)
+      })
+      .catch( err => {
         res.status(400).json({
           error: err.message
         })
