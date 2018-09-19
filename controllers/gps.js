@@ -13,7 +13,7 @@ class GPSController {
     
     GPS.create({
       location: {
-        type: { type },
+        type,
         coordinates: [long, lat]
       }
 
@@ -61,8 +61,18 @@ class GPSController {
 
   static update (req, res) {
     let GPSId = req.params.id;
+    const {
+      type,
+      long,
+      lat
+    } = req.body;
 
-    GPS.findByIdAndUpdate(GPSId, {$set: req.body}, {new:true})
+    GPS.findByIdAndUpdate(GPSId, {$set: {
+      location: {
+        type,
+        coordinates: [long,lat]
+      }
+    }}, {new:true})
       .then( updatedGPS => {
         res.status(200).json(updatedGPS)
       })
