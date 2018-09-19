@@ -17,18 +17,19 @@ if (!process.env.NODE_ENV) {
 
 let DBurl = {
 	development: "mongodb://localhost:27017/parcelpintar",
-	test: `mongodb://${process.env.MONGODB_TEST_USER}:${
-		process.env.MONGODB_TEST_PASS
-	}@${process.env.MONGODB_TEST_HOST}:${
-		process.env.MONGODB_TEST_PORT
-	}/parcelpintar_test`,
+	test: "mongodb://localhost:27017/parcelpintar",
+	// test: `mongodb://${process.env.MONGODB_TEST_USER}:${
+	// 	process.env.MONGODB_TEST_PASS
+	// }@${process.env.MONGODB_TEST_HOST}:${
+	// 	process.env.MONGODB_TEST_PORT
+	// }/parcelpintar_test`,
 	production: `mongodb://${process.env.MONGODB_USER}:${
 		process.env.MONGODB_PASS
 	}@${process.env.MONGODB_HOST}:${process.env.MONGODB_PORT}/parcelpintar`
 };
 
 mongoose.connect(
-	DBurl[(process.env, NODE_ENV)],
+	DBurl[(process.env.NODE_ENV)],
 	{ useNewUrlParser: true }
 );
 
