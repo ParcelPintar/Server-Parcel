@@ -9,19 +9,7 @@ let User = require("../models/User");
 let app = require("../app");
 
 describe("Users", function() {
-
-
 	this.timeout(5000);
-	it("hehe", done => {
-
-		chai
-			.request(app)
-			.get("/")
-			.end((err, res) => {
-				console.log(res);
-				done();
-			});
-	});
 
 	describe("POST/register", () => {
 		afterEach(done => {
@@ -36,7 +24,7 @@ describe("Users", function() {
 
 		it("should return the created new User + encrypted password", done => {
 			let args = {
-				name: "eri",
+				name: "erih",
 				email: "joanlamrack@gmail.com",
 				password: "12340000"
 			};
@@ -56,7 +44,7 @@ describe("Users", function() {
 		});
 		it("should show error email is wrong format", done => {
 			let args = {
-				name: "eri",
+				name: "erih",
 				email: "joasndfasdf",
 				password: "asdbjhsdfjhbfsjhbdf"
 			};
@@ -76,7 +64,7 @@ describe("Users", function() {
 		});
 		it("should show invalid length of password alert", done => {
 			let args = {
-				name: "eri",
+				name: "erih",
 				email: "joan@gmail.com",
 				password: "as"
 			};
@@ -89,15 +77,15 @@ describe("Users", function() {
 					expect(res.body).to.be.a("object");
 					expect(res.body).to.have.property("error");
 					expect(res.body.error).to.equal(
-						"User validation failed: password: Password Length minimum 8"
+						"User validation failed: password: Password length minimum 6"
 					);
 					done();
 				});
 		});
 
-		it("should return fail since mail is ot unique", done => {
+		it("should return fail since mail is not unique", done => {
 			let args = {
-				name: "eri",
+				name: "erih",
 				email: "joanlamrack@gmail.com",
 				password: "123400000"
 			};
@@ -120,7 +108,7 @@ describe("Users", function() {
 						.end((err, res) => {
 							expect(res).to.have.status(400);
 							expect(res.body).to.have.property("error");
-							expect(res.body.error).to.equal("email must be unique");
+							expect(res.body.error).to.equal("Email already used");
 							done();
 						});
 				});
@@ -140,14 +128,14 @@ describe("Users", function() {
 
 		it("should return user / password is wrong", done => {
 			let args = {
-				name: "eri",
+				name: "erih",
 				email: "joanlamrack@gmail.com",
 				password: "123400000"
 			};
 
 			chai
 				.request(app)
-				.post(USER_LOGIN)
+				.post(USER_REGISTER)
 				.send(args)
 				.end((err, res) => {
 					expect(res).to.have.status(201);
@@ -161,9 +149,9 @@ describe("Users", function() {
 						.post(USER_LOGIN)
 						.send({ email: "asdfa", password: "asdfsd" })
 						.end((err, res) => {
-							expect(res).to.have.status(400);
+							expect(res).to.have.status(404);
 							expect(res.body).to.have.property("error");
-							expect(res.body.error).to.equal("user not found");
+							expect(res.body.error).to.equal("User not registered");
 							done();
 						});
 				});
@@ -179,7 +167,7 @@ describe("Users", function() {
 				.request(app)
 				.post(USER_REGISTER)
 				.send(args)
-				.end((err, res) => {
+				.end((err, res) => {console.log(err)
 					expect(res).to.have.status(201);
 					expect(res.body).to.be.a("object");
 					expect(res.body.name).to.equal(args.name);
