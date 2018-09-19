@@ -1,14 +1,15 @@
 const router = require("express").Router();
+const Parcel = require('../controllers/parcel');
 
 router
 	.route("/")
-	.get((req, res) => {})
-	.post((req, res) => {});
+	.get(Parcel.getAllParcels)
+	.post(Parcel.create);
 
 router
 	.route("/:id")
-	.get((req, res) => {})
-	.delete((req, res) => {})
-	.patch((req, res) => {});
+	.get(Parcel.getParcelById)
+	.delete(Parcel.remove)
+	.patch(Parcel.updateParcel);
 
 module.exports = router;

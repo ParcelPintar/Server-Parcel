@@ -1,14 +1,15 @@
 const router = require("express").Router();
+const Gyro = require('../controllers/gyro');
 
 router
 	.route("/")
-	.get((req, res) => {})
-	.post((req, res) => {});
+	.get(Gyro.getAllGyro)
+	.post(Gyro.create);
 
 router
 	.route("/:id")
-	.get((req, res) => {})
-	.delete((req, res) => {})
-	.patch((req, res) => {});
+	.get(Gyro.getGyroById)
+	.delete(Gyro.remove)
+	.patch(Gyro.updateGyro);
 
 module.exports = router;

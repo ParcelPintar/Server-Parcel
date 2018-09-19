@@ -89,7 +89,7 @@ class OrderController {
       })
   }
 
-  static update (req, res) {
+  static updateOrder (req, res) {
     let orderId = req.params.id;
 
     Order.findByIdAndUpdate(orderId, {$set: req.body}, {new:true})

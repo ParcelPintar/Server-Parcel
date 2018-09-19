@@ -59,7 +59,7 @@ class GPSController {
       })
   }
 
-  static update (req, res) {
+  static updateGPS (req, res) {
     let GPSId = req.params.id;
     const {
       type,

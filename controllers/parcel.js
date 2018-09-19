@@ -55,7 +55,7 @@ class ParcelController {
       })
   }
 
-  static update (req, res) {
+  static updateParcel (req, res) {
     let parcelId = req.params.id;
 
     Parcel.findByIdAndUpdate(parcelId, {$set: req.body}, {new:true})

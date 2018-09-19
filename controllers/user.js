@@ -57,7 +57,7 @@ class UserController {
       })
   }
 
-  static update (req, res) {
+  static updateUser (req, res) {
     let userId = req.params.id;
 
     User.findByIdAndUpdate(userId, {$set: req.body}, {new:true})
@@ -99,6 +99,22 @@ class UserController {
             error: 'User not found'
           })
         }
+      })
+      .catch(err => {
+        res.status(400).json({
+          error: err.message
+        })
+      })
+  }
+
+  static getAllUsers (req, res) {
+    let userId = req.params.id;
+
+    User.find()
+      .populate('orders')
+      .populate('receivers')
+      .then(users => {
+        res.status(200).json(users)
       })
       .catch(err => {
         res.status(400).json({
