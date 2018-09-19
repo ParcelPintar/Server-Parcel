@@ -28,7 +28,7 @@ let DBurl = {
 };
 
 mongoose.connect(
-	DBurl[(process.env, NODE_ENV)],
+	DBurl[(process.env.NODE_ENV)],
 	{ useNewUrlParser: true }
 );
 
