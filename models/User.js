@@ -30,7 +30,7 @@ const userSchema = Schema({
 }
 )
 
-userSchema.pres('save', function (next) {
+userSchema.pre('save', function (next) {
   if (this.isNew) {
     let user = this;
     let password = AuthHelper.hashpass(user.password);
