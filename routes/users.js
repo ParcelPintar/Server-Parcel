@@ -1,15 +1,16 @@
 const router = require("express").Router();
+const userC = require('../controllers/user');
 
-router.get("/", (req, res) => {});
+router.get("/", userC.getAllUsers);
 
-router.post("/register", (req, res) => {});
+router.post("/register", userC.register);
 
-router.post("/login", (req, res) => {});
+router.post("/login", userC.login);
 
 router
 	.route("/:id")
-	.get((req, res) => {})
-	.delete((req, res) => {})
-	.patch((req, res) => {});
+	.get(userC.getUserById)
+	.delete((userC.remove))
+	.update((userC.update))
 
 module.exports = router;
