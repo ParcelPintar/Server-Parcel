@@ -10,6 +10,6 @@ router
 	.route("/:id")
 	.get(Parcel.getParcelById)
 	.delete(Parcel.remove)
-	.update(Parcel.update);
+	.patch(Parcel.updateParcel);
 
 module.exports = router;

@@ -10,7 +10,7 @@ router
 	.route("/:id")
 	.get(Order.getOrderById)
 	.delete(Order.remove)
-	.update(Order.update);
+	.patch(Order.updateOrder);
 
 router.get("/me/receive", Order.getReceiveOrder);
 

@@ -53,7 +53,7 @@ class GyroController {
       })
   }
 
-  static update (req, res) {
+  static updateGyro (req, res) {
     let GyroId = req.params.id;
 
     Gyro.findByIdAndUpdate(GyroId, {$set: req.body}, {new:true})

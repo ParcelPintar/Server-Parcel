@@ -57,7 +57,7 @@ class UserController {
       })
   }
 
-  static update (req, res) {
+  static updateUser (req, res) {
     let userId = req.params.id;
 
     User.findByIdAndUpdate(userId, {$set: req.body}, {new:true})

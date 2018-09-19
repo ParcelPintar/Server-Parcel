@@ -10,6 +10,6 @@ router
 	.route("/:id")
 	.get(GPS.getGPSById)
 	.delete(GPS.remove)
-	.update(GPS.update);
+	.patch(GPS.updateGPS);
 
 module.exports = router;

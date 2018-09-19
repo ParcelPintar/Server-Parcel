@@ -10,6 +10,6 @@ router
 	.route("/:id")
 	.get(Gyro.getGyroById)
 	.delete(Gyro.remove)
-	.update(Gyro.update);
+	.patch(Gyro.updateGyro);
 
 module.exports = router;
