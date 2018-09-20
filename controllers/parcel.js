@@ -10,7 +10,7 @@ class ParcelController {
       gps
     } = req.body;
     
-    Order.create({
+    Parcel.create({
       gyro,
       gps
     })
