@@ -1,4 +1,4 @@
-const Gyro = require('../models/GPS');
+const Gyro = require('../models/Gyro');
 
 class GyroController {
   constructor() {
@@ -13,7 +13,7 @@ class GyroController {
       threshold
     })
       .then(newGyro => {
-        res.status(200).json(newGyro);
+        res.status(201).json(newGyro);
       })
       .catch (err => {
         res.status(400).json({
@@ -55,8 +55,9 @@ class GyroController {
 
   static updateGyro (req, res) {
     let GyroId = req.params.id;
+    const { threshold } = req.body
 
-    Gyro.findByIdAndUpdate(GyroId, {$set: req.body}, {new:true})
+    Gyro.findByIdAndUpdate(GyroId, {$set: {threshold}}, {new:true})
       .then( updatedGyro => {
         res.status(200).json(updatedGyro)
       })
