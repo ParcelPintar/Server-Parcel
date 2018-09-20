@@ -6,7 +6,8 @@ chai.use(chaiHttp);
 const app = require('../app');
 const Gyro = require('../models/Gyro');
 
-describe('Gyro CRUD', () => {
+describe('Gyro CRUD', function () {
+  this.timeout(3000);
 
   let dummyGyro = {
     threshold: 30
