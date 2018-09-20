@@ -57,8 +57,12 @@ class ParcelController {
 
   static updateParcel (req, res) {
     let parcelId = req.params.id;
+    const {
+      gyro,
+      gps
+    } = req.body
 
-    Parcel.findByIdAndUpdate(parcelId, {$set: req.body}, {new:true})
+    Parcel.findByIdAndUpdate(parcelId, {$set: {gyro, gps}}, {new:true})
       .then( updatedParcel => {
         res.status(200).json(updatedParcel)
       })

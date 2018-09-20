@@ -6,8 +6,9 @@ chai.use(chaiHttp);
 const app = require('../app');
 const GPS = require('../models/GPS');
 
-describe('gps CRUD', () => {
-
+describe('gps CRUD', function () {
+  this.timeout(3000);
+  
   let dummyGPS = {
     type: 'Point',
     long: 106.78,

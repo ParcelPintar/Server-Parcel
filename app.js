@@ -17,7 +17,7 @@ if (!process.env.NODE_ENV) {
 
 let DBurl = {
 	development: "mongodb://localhost:27017/parcelpintar",
-	test: "mongodb://kneric:Gukguk70-@ds145121.mlab.com:45121/testing",
+	test: "mongodb://localhost:27017/parcelpintar",
 	// test: `mongodb://${process.env.MONGODB_TEST_USER}:${
 	// 	process.env.MONGODB_TEST_PASS
 	// }@${process.env.MONGODB_TEST_HOST}:${
