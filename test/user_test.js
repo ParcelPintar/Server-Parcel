@@ -8,6 +8,29 @@ let User = require("../models/User");
 
 let app = require("../app");
 
+let test_args = {
+	normal: {
+		name: "erithiana_sisijoan",
+		email: "joanlamrack@gmail.com",
+		password: "12340000"
+	},
+	wrong_email_format: {
+		name: "brian_pradipta",
+		email: "brianbriangmail.com",
+		password: "asdfasdfasdf"
+	},
+	wrong_password_length: {
+		name: "maharamarama",
+		email: "lah@gmail.com",
+		password: "lock"
+	},
+	unregistered: {
+		name: "Albert Henry",
+		email: "creativeProgrammer@gmail.com",
+		password: "rahasiadong"
+	}
+};
+
 describe("Users", function() {
 	this.timeout(5000);
 
@@ -23,35 +46,24 @@ describe("Users", function() {
 		});
 
 		it("should return the created new User + encrypted password", done => {
-			let args = {
-				name: "erih",
-				email: "joanlamrack@gmail.com",
-				password: "12340000"
-			};
-
 			chai
 				.request(app)
 				.post(USER_REGISTER)
-				.send(args)
+				.send(test_args.normal)
 				.end((err, res) => {
 					expect(res).to.have.status(201);
 					expect(res.body).to.be.a("object");
-					expect(res.body.name).to.equal(args.name);
-					expect(res.body.password).to.not.equal(args.password);
-					expect(res.body.email).to.equal(args.email);
+					expect(res.body.name).to.equal(test_args.normal.name);
+					expect(res.body.password).to.not.equal(test_args.normal.password);
+					expect(res.body.email).to.equal(test_args.normal.email);
 					done();
 				});
 		});
 		it("should show error email is wrong format", done => {
-			let args = {
-				name: "erih",
-				email: "joasndfasdf",
-				password: "asdbjhsdfjhbfsjhbdf"
-			};
 			chai
 				.request(app)
 				.post(USER_REGISTER)
-				.send(args)
+				.send(test_args.wrong_email_format)
 				.end((err, res) => {
 					expect(res).to.have.status(400);
 					expect(res.body).to.be.a("object");
@@ -63,15 +75,10 @@ describe("Users", function() {
 				});
 		});
 		it("should show invalid length of password alert", done => {
-			let args = {
-				name: "erih",
-				email: "joan@gmail.com",
-				password: "as"
-			};
 			chai
 				.request(app)
 				.post(USER_REGISTER)
-				.send(args)
+				.send(test_args.wrong_password_length)
 				.end((err, res) => {
 					expect(res).to.have.status(400);
 					expect(res.body).to.be.a("object");
@@ -84,27 +91,21 @@ describe("Users", function() {
 		});
 
 		it("should return fail since mail is not unique", done => {
-			let args = {
-				name: "erih",
-				email: "joanlamrack@gmail.com",
-				password: "123400000"
-			};
-
 			chai
 				.request(app)
 				.post(USER_REGISTER)
-				.send(args)
+				.send(test_args.normal)
 				.end((err, res) => {
 					expect(res).to.have.status(201);
 					expect(res.body).to.be.a("object");
-					expect(res.body.name).to.equal(args.name);
-					expect(res.body.password).to.not.equal(args.password);
-					expect(res.body.email).to.equal(args.email);
+					expect(res.body.name).to.equal(test_args.normal.name);
+					expect(res.body.password).to.not.equal(test_args.normal.password);
+					expect(res.body.email).to.equal(test_args.normal.email);
 
 					chai
 						.request(app)
 						.post(USER_REGISTER)
-						.send(args)
+						.send(test_args.normal)
 						.end((err, res) => {
 							expect(res).to.have.status(400);
 							expect(res.body).to.have.property("error");
@@ -127,27 +128,24 @@ describe("Users", function() {
 		});
 
 		it("should return user / password is wrong", done => {
-			let args = {
-				name: "erih",
-				email: "joanlamrack@gmail.com",
-				password: "123400000"
-			};
-
 			chai
 				.request(app)
 				.post(USER_REGISTER)
-				.send(args)
+				.send(test_args.normal)
 				.end((err, res) => {
 					expect(res).to.have.status(201);
 					expect(res.body).to.be.a("object");
-					expect(res.body.name).to.equal(args.name);
-					expect(res.body.password).to.not.equal(args.password);
-					expect(res.body.email).to.equal(args.email);
+					expect(res.body.name).to.equal(test_args.normal.name);
+					expect(res.body.password).to.not.equal(test_args.normal.password);
+					expect(res.body.email).to.equal(test_args.normal.email);
 
 					chai
 						.request(app)
 						.post(USER_LOGIN)
-						.send({ email: "asdfa", password: "asdfsd" })
+						.send({
+							email: test_args.unregistered.email,
+							password: test_args.unregistered.password
+						})
 						.end((err, res) => {
 							expect(res).to.have.status(404);
 							expect(res.body).to.have.property("error");
@@ -157,27 +155,24 @@ describe("Users", function() {
 				});
 		});
 		it("should return success message and token", done => {
-			let args = {
-				name: "eri",
-				email: "joanlamrack@gmail.com",
-				password: "123400000"
-			};
-
 			chai
 				.request(app)
 				.post(USER_REGISTER)
-				.send(args)
-				.end((err, res) => {console.log(err)
+				.send(test_args.normal)
+				.end((err, res) => {
 					expect(res).to.have.status(201);
 					expect(res.body).to.be.a("object");
-					expect(res.body.name).to.equal(args.name);
-					expect(res.body.password).to.not.equal(args.password);
-					expect(res.body.email).to.equal(args.email);
+					expect(res.body.name).to.equal(test_args.normal.name);
+					expect(res.body.password).to.not.equal(test_args.normal.password);
+					expect(res.body.email).to.equal(test_args.normal.email);
 
 					chai
 						.request(app)
 						.post(USER_LOGIN)
-						.send({ email: args.email, password: args.email })
+						.send({
+							email: test_args.normal.email,
+							password: test_args.normal.password
+						})
 						.end((err, res) => {
 							expect(res).to.have.status(200);
 							expect(res.body).to.have.property("token");
