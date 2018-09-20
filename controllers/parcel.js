@@ -15,7 +15,7 @@ class ParcelController {
       gps
     })
       .then(newParcel => {
-        res.status(200).json(newParcel);
+        res.status(201).json(newParcel);
       })
       .catch (err => {
         res.status(400).json({
