@@ -4,8 +4,6 @@ chai.should();
 chai.use(chaiHttp);
 const app = require("../app");
 const ParcelPintar = require("../models/ParcelPintar");
-const GPS = require("../models/GPS");
-const Gyro = require("../models/Gyro");
 
 describe("parcel CRUD", function() {
 	this.timeout(3000);
@@ -13,87 +11,22 @@ describe("parcel CRUD", function() {
 	after(done => {
 		ParcelPintar.deleteMany({})
 			.then(() => {
-				return Gyro.deleteMany({}).then(() => {
-					return GPS.deleteMany({}).then(() => {
-						done();
-					});
-				});
+				done();
 			})
 			.catch(err => {
 				console.log(err);
 			});
 	});
 
-	let dummyGPS = {
-		type: "Point",
-		long: 106.78,
-		lat: -6.26
-	};
-
-	let dummyGyro = {
-		threshold: 30
-	};
-
-	let tempGyroId = "";
-	let tempGPSId = "";
-
-	describe("POST /gps", () => {
-		it("should return newly created GPS", done => {
+	describe("POST /parcels", () => {
+		it("should return 201 response", done => {
 			chai.request(app)
-				.post("/gps")
-				.send(dummyGPS)
+				.post("/parcels")
+				.send()
 				.end((err, response) => {
-					tempGPSId = response.body._id;
-
 					response.status.should.equal(201);
-					response.body.should.be.an("object");
-					response.body.location.type.should.equal(dummyGPS.type);
-					response.body.location.coordinates[0].should.equal(
-						dummyGPS.long
-					);
-					response.body.location.coordinates[1].should.equal(
-						dummyGPS.lat
-					);
-					done();
-				});
-		});
-
-		it("should return error 400 if object is invalid", done => {
-			chai.request(app)
-				.post("/gps")
-				.send({})
-				.end((err, response) => {
-					response.status.should.equal(400);
-					response.body.should.have.property("error");
-					done();
-				});
-		});
-	});
-
-	describe("POST /gyro", () => {
-		it("should return newly created Gyro", done => {
-			chai.request(app)
-				.post("/gyro")
-				.send(dummyGyro)
-				.end((err, response) => {
-					tempGyroId = response.body._id;
-
-					console.log("AAAA", response.body);
-
-					response.status.should.equal(201);
-					response.body.should.be.an("object");
-					response.body.threshold.should.equal(dummyGyro.threshold);
-					done();
-				});
-		});
-
-		it("should return error 400 if object is invalid", done => {
-			chai.request(app)
-				.post("/gyro")
-				.send({})
-				.end((err, response) => {
-					response.status.should.equal(400);
-					response.body.should.have.property("error");
+					response.body.should.have.property("gps");
+					response.body.should.have.property("gyro");
 					done();
 				});
 		});
@@ -101,43 +34,12 @@ describe("parcel CRUD", function() {
 
 	let tempPPId = "";
 
-	describe("POST /parcels", () => {
-		it("should return newly created Parcel", done => {
-			let dummyParcel = {
-				gyro: tempGyroId,
-				gps: tempGPSId
-			};
-
-			chai.request(app)
-				.post("/parcels")
-				.send(dummyParcel)
-				.end((err, response) => {
-					tempPPId = response.body._id;
-
-					response.status.should.equal(201);
-					response.body.should.be.an("object");
-					response.body.gyro.should.equal(dummyParcel.gyro);
-					response.body.gps.should.equal(dummyParcel.gps);
-					done();
-				});
-		});
-
-		it("should return error 400 if object is invalid", done => {
-			chai.request(app)
-				.post("/parcels")
-				.send({})
-				.end((err, response) => {
-					response.status.should.equal(400);
-					response.body.should.have.property("error");
-					done();
-				});
-		});
-	});
 	describe("GET /parcels", () => {
 		it("should list all parcels", done => {
 			chai.request(app)
 				.get("/parcels")
 				.end((err, response) => {
+					tempPPId = response.body[0]._id;
 					response.status.should.equal(200);
 					response.body.should.be.an("array");
 					done();
@@ -170,8 +72,9 @@ describe("parcel CRUD", function() {
 	describe("PATCH /parcels/:id", () => {
 		it("should return updated GPS", done => {
 			let updatedParcel = {
-				gyro: tempGyroId,
-				gps: tempGPSId
+				long: "123",
+				lat: "12",
+				threshold: true
 			};
 
 			chai.request(app)
@@ -180,8 +83,13 @@ describe("parcel CRUD", function() {
 				.end((err, response) => {
 					response.status.should.equal(200);
 					response.body.should.be.an("object");
-					response.body.gyro.should.equal(updatedParcel.gyro);
-					response.body.gps.should.equal(updatedParcel.gps);
+					response.body.gyro.threshold.should.equal(true);
+					response.body.gps.location.long.should.equal(
+						updatedParcel.long
+					);
+					response.body.gps.location.lat.should.equal(
+						updatedParcel.lat
+					);
 					done();
 				});
 		});

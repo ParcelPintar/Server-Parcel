@@ -6,7 +6,7 @@ class parcelFirebaseController {
 	static createNewParcel(newParcelId) {
 		return db
 			.ref("parcels/")
-			.child(newParcelId)
+			.child(String(newParcelId))
 			.set({
 				gyro: {
 					threshold: false

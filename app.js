@@ -25,6 +25,8 @@ let DBurl = {
 	production: process.env.MONGODB_ATLAS
 };
 
+mongoose.set("useCreateIndex", true);
+
 mongoose.connect(
 	DBurl[process.env.NODE_ENV],
 	{ useNewUrlParser: true }

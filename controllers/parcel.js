@@ -1,13 +1,13 @@
 const Parcel = require("../models/ParcelPintar");
-const parcelFirebaseController = require("../controllers/parcelFirebaseController");
+const parcelFirebaseController = require("./parcelFirebaseController");
 
 class ParcelController {
 	constructor() {}
 
 	static create(req, res) {
-		Parcel.create()
+		Parcel.create({ gryo: {}, gps: {} })
 			.then(newParcel => {
-				parcelFirebaseController.createNewParcel(newParcel.id);
+				parcelFirebaseController.createNewParcel(newParcel._id);
 				res.status(201).json(newParcel);
 			})
 			.catch(err => {
@@ -41,7 +41,7 @@ class ParcelController {
 	}
 
 	static getAllParcels(req, res) {
-		Parcel.find()
+		Parcel.find({})
 			.then(parcels => {
 				res.status(200).json(parcels);
 			})
@@ -55,18 +55,30 @@ class ParcelController {
 	static updateParcel(req, res) {
 		let parcelId = req.params.id;
 		const { long, lat, threshold } = req.body;
-
-		Parcel.findByIdAndUpdate(parcelId, {
-			$set: { gyro: { threshold }, gps: { location: { long, lat } } }
-		})
-			.then(updatedParcel => {
-				res.status(200).json(updatedParcel);
-			})
-			.catch(err => {
-				res.status(400).json({
-					error: err.message
+		if (long && lat && threshold) {
+			Parcel.findByIdAndUpdate(
+				parcelId,
+				{
+					$set: {
+						gyro: { threshold },
+						gps: { location: { long, lat } }
+					}
+				},
+				{ new: true }
+			)
+				.then(updatedParcel => {
+					res.status(200).json(updatedParcel);
+				})
+				.catch(err => {
+					res.status(400).json({
+						error: err.message
+					});
 				});
+		} else {
+			res.status(400).json({
+				error: "invalid input"
 			});
+		}
 	}
 
 	static remove(req, res) {

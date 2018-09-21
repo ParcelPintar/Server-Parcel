@@ -10,8 +10,6 @@ chai.use(chaiHTTP);
 
 let User = require("../models/User");
 let Order = require("../models/Order");
-let GPS = require("../models/GPS");
-let Gyro = require("../models/Gyro");
 let Parcel = require("../models/ParcelPintar");
 let app = require("../app");
 
@@ -26,14 +24,7 @@ let test_args = {
 		email: "creativeProgrammer@gmail.com",
 		password: "rahasiadong"
 	},
-	gyro: {
-		threshold: 0
-	},
-	gps: {
-		type: "Point",
-		long: 196.78,
-		lat: -6.26
-	}
+	parcel: { gyro: {}, gps: {} }
 };
 
 describe("Orders", function() {
@@ -59,13 +50,10 @@ describe("Orders", function() {
 					return Order.deleteMany({});
 				})
 				.then(() => {
-					return GPS.deleteMany({});
+					return User.deleteMany({});
 				})
 				.then(() => {
-					return Gyro.deleteMany({});
-				})
-				.then(() => {
-					return Gyro.deleteMany({});
+					return Parcel.deleteMany({});
 				})
 				.then(() => {
 					done();
@@ -96,28 +84,9 @@ describe("Orders", function() {
 
 						expect(createAnotherUserResponse).to.have.status(201);
 
-						let gyro_create_response = await chai
-							.request(app)
-							.post(CREATE_GYRO)
-							.send(test_args.gyro);
-
-						expect(gyro_create_response).to.have.status(201);
-
-						let new_gyro_id = gyro_create_response.body._id;
-
-						let gps_create_response = await chai
-							.request(app)
-							.post(CREATE_GPS)
-							.send(test_args.gps);
-
-						expect(gps_create_response).to.have.status(201);
-
-						let new_gps_id = gps_create_response.body._id;
 						let parcel_create_response = await chai
 							.request(app)
-							.post(CREATE_PARCEL)
-							.send({ gyro: new_gyro_id, gps: new_gps_id });
-
+							.post(CREATE_PARCEL);
 						expect(parcel_create_response).to.have.status(201);
 
 						let order_create_response = await chai
@@ -129,7 +98,6 @@ describe("Orders", function() {
 								destination: 12.78,
 								address: "pondok Indah"
 							});
-						console.log("woi");
 						done();
 					} catch (err) {
 						console.log(err);
@@ -152,36 +120,10 @@ describe("Orders", function() {
 					let token = res.body.token;
 
 					try {
-						let createAnotherUserResponse = await chai
-							.request(app)
-							.post(USER_REGISTER)
-							.send(test_args.secondAccount);
-
-						let new_user_id = createAnotherUserResponse._id;
-
-						expect(createAnotherUserResponse).to.have.status(201);
-
-						let gyro_create_response = await chai
-							.request(app)
-							.post(CREATE_GYRO)
-							.send(test_args.gyro);
-
-						expect(gyro_create_response).to.have.status(201);
-
-						let new_gyro_id = gyro_create_response.body._id;
-
-						let gps_create_response = await chai
-							.request(app)
-							.post(CREATE_GPS)
-							.send(test_args.gps);
-
-						expect(gps_create_response).to.have.status(201);
-
-						let new_gps_id = gps_create_response.body._id;
 						let parcel_create_response = await chai
 							.request(app)
 							.post(CREATE_PARCEL)
-							.send({ gyro: new_gyro_id, gps: new_gps_id });
+							.send(test_args.parcel);
 
 						expect(parcel_create_response).to.have.status(201);
 
