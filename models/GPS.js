@@ -18,10 +18,4 @@ const GPSSchema = Schema({
 
 module.exports = mongoose.model('GPS', GPSSchema)
 
-// let GPS = new GPS({ 
-//   "loc": { 
-//       "type": "Point",
-//       "coordinates": [-73.97, 40.77]
-//   }
-// });
 
