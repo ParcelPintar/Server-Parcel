@@ -1,7 +1,7 @@
-const CREATE_GYRO = "/orders";
-const UPDATE_GYRO = "/orders/:id";
+const CREATE_GYRO = "/gyro";
+const UPDATE_GYRO = "/gyro/:id";
 
 module.exports = {
-    CREATE_GYRO,
-    UPDATE_GYRO
-}
+	CREATE_GYRO,
+	UPDATE_GYRO
+};

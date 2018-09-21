@@ -109,8 +109,6 @@ describe('parcel CRUD', function (){
         gps: tempGPSId,
       }
 
-      console.log('HOI', tempGyroId);
-      console.log('HEI', tempGPSId);
       chai.request(app)
       .post('/parcels')
       .send(dummyParcel)
