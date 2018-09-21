@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const Parcel = require('../controllers/parcel');
+const Parcel = require("../controllers/parcel");
 
 router
 	.route("/")
