@@ -13,12 +13,12 @@ const parcelPintarSchema = Schema({
 			long: {
 				type: String,
 				required: true,
-				default: "-6.0988"
+				default: "0"
 			},
 			lat: {
 				type: String,
 				required: true,
-				default: "106"
+				default: "0"
 			}
 		}
 	}

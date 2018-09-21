@@ -1,17 +1,12 @@
-import firebase from "firebase/app";
-import "firebase/database";
-import "firebase/auth";
+var admin = require("firebase-admin");
 
-let config = {
-	apiKey: process.env.REACT_APP_FIREBASE_APIKEY,
-	authDomain: process.env.REACT_APP_FIREBASE_AUTHDOMAIN,
-	databaseURL: process.env.REACT_APP_FIREBASE_DATABASEURL,
-	projectId: process.env.REACT_APP_FIREBASE_PROJECTID,
-	storageBucket: process.env.REACT_APP_FIREBASE_STORAGEBUCK,
-	messagingSenderId: process.env.REACT_APP_FIREBASE_MSGSENDERID
+var serviceAccount = require("./parcelpintar-firebase-adminsdk-67zwo-17b3732d9e.json");
+
+admin.initializeApp({
+	credential: admin.credential.cert(serviceAccount),
+	databaseURL: "https://parcelpintar.firebaseio.com"
+});
+
+module.exports = {
+	db: admin.database()
 };
-
-firebase.initializeApp(config);
-
-export const db = firebase.database();
-export const auth = firebase.auth();
