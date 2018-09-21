@@ -1,16 +1,13 @@
 const Parcel = require("../models/ParcelPintar");
+const parcelFirebaseController = require("../controllers/parcelFirebaseController");
 
 class ParcelController {
 	constructor() {}
 
 	static create(req, res) {
-		const { gyro, gps } = req.body;
-
-		Parcel.create({
-			gyro,
-			gps
-		})
+		Parcel.create()
 			.then(newParcel => {
+				parcelFirebaseController.createNewParcel(newParcel.id);
 				res.status(201).json(newParcel);
 			})
 			.catch(err => {
@@ -33,6 +30,9 @@ class ParcelController {
 					});
 				}
 			})
+			.then(data => {
+				res.status(200).json(data);
+			})
 			.catch(err => {
 				res.status(400).json({
 					error: err.message
@@ -54,13 +54,11 @@ class ParcelController {
 
 	static updateParcel(req, res) {
 		let parcelId = req.params.id;
-		const { gyro, gps } = req.body;
+		const { long, lat, threshold } = req.body;
 
-		Parcel.findByIdAndUpdate(
-			parcelId,
-			{ $set: { gyro, gps } },
-			{ new: true }
-		)
+		Parcel.findByIdAndUpdate(parcelId, {
+			$set: { gyro: { threshold }, gps: { location: { long, lat } } }
+		})
 			.then(updatedParcel => {
 				res.status(200).json(updatedParcel);
 			})
@@ -76,6 +74,7 @@ class ParcelController {
 
 		Parcel.findByIdAndRemove(parcelId)
 			.then(removedParcel => {
+				parcelFirebaseController.deleteParcelById(parcelId);
 				res.status(200).json(removedParcel);
 			})
 			.catch(err => {

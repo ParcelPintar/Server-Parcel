@@ -20,7 +20,7 @@ class parcelFirebaseController {
 
 	static getParcelById(parcelId) {
 		return new Promise((resolve, reject) => {
-			db.ref("/parcels" + parcelId)
+			db.ref("parcels/" + parcelId)
 				.once("value")
 				.then(data => {
 					resolve(data.val());
@@ -51,6 +51,10 @@ class parcelFirebaseController {
 				reject(err)
 			})
 		})
+	}
+
+	static deleteParcelById(parcelId){
+		return db.ref("parcels/"+parcelId).set(null)
 	}
 }
 
