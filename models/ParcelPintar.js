@@ -11,12 +11,12 @@ const parcelPintarSchema = Schema({
 	gps: {
 		location: {
 			long: {
-				type: String,
+				type: Number,
 				required: true,
 				default: "0"
 			},
 			lat: {
-				type: String,
+				type: Number,
 				required: true,
 				default: "0"
 			}

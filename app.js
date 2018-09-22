@@ -35,7 +35,7 @@ mongoose.connect(
 let db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", function callback() {
-	console.log("Mongo DB connected!");
+	console.log(`MongoDB Connected on ${process.env.NODE_ENV} database`);
 });
 
 app.use("/", indexrouter);
