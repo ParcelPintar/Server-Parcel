@@ -245,7 +245,7 @@ Delete user by ID
     message : "User not found",
     data:{}
 }
-```                      
+```
 
 ## Parcels Routes
 
@@ -329,8 +329,15 @@ Show parcel by ID
     message: "Parcel found",
     data:{
         _id:"<parcel id>",
-        gyro:"<gyro id>",
-        gps: "<gps id>"
+        gyro:{
+			threshold:<boolean>
+		},
+        gps: {
+			location:{
+				long:<number>
+				lat:<number>
+			}
+		}
     }
 }
 ```
@@ -368,8 +375,9 @@ Update Parcel by ID
 
 ```
 {
-    gyro:"<new gyro reference>",
-    gps:"<new gps reference>"
+    long: number,
+    lat: number,
+	threshold: boolean
 }
 ```
 
@@ -495,6 +503,7 @@ Create new Order entity from where Logged in user is the sender
 **Content** : `{ message : "Order Successfully created", data:{} }`
 
 ### Error Responses
+
 ---
 
 **Condition** : The requirements for creating new Order is not fullfilled.
@@ -512,7 +521,7 @@ Create new Order entity from where Logged in user is the sender
 }
 ```
 
-## Show orders by User logged in 
+## Show orders by User logged in
 
 show orders where user's role is sender
 
@@ -534,22 +543,25 @@ show orders where user's role is sender
 
 **Code** : `200 OK`
 
-**Content** : 
+**Content** :
+
 ```
-{ 
+{
     message : "Order found",
     data:[]
 }
 ```
+
 ### OR
 
 **Condition** : Order successfully Retrived with data.
 
 **Code** : `200 OK`
 
-**Content** : 
+**Content** :
+
 ```
-{ 
+{
     message : "Order found",
     data:[
             {
@@ -561,7 +573,8 @@ show orders where user's role is sender
         ]
 }
 ```
-## Show receive by User logged in 
+
+## Show receive by User logged in
 
 show orders where user's role is receiver
 
@@ -583,22 +596,25 @@ show orders where user's role is receiver
 
 **Code** : `200 OK`
 
-**Content** : 
+**Content** :
+
 ```
-{ 
+{
     message : "Order found",
     data:[]
 }
 ```
+
 ### OR
 
 **Condition** : Order successfully Retrived with data.
 
 **Code** : `200 OK`
 
-**Content** : 
+**Content** :
+
 ```
-{ 
+{
     message : "Order found",
     data:[
             {
@@ -610,7 +626,6 @@ show orders where user's role is receiver
         ]
 }
 ```
-
 
 ### Show Order by ID
 
@@ -770,426 +785,6 @@ Delete Order by ID
 ```
 {
     message : "Order not found",
-    data:{}
-}
-```
-
-## Gyro Routes
-
-| Path       | Method | Description          |
-| ---------- | ------ | -------------------- |
-| /gyros     | POST   | Create new Gyro data |
-| /gyros     | GET    | Get all Gyros        |
-| /gyros/:id | GET    | Get gyro by ID       |
-| /gyros/:id | PATCH  | Update gyro by ID    |
-| /gyros/:id | DELETE | Delete gyro by ID    |
-
-## Create new Gyro
-
-Create new Gyro entity.
-
-**URL** : `/gyros`
-
-**Method** : `POST`
-
-**Auth required** : Yes
-
-**Permissions required** : Yes
-
-**Data constraints** : `{ deviceID: String, long : Point, lat:Point }`
-
-### Success Responses
-
----
-
-**Condition** : Gyro successfully created.
-
-**Code** : `201 OK`
-
-**Content** : `{ message : "Gyro Successfully created", data:{} }`
-
-### Error Responses
-
----
-
-**Condition** : The requirements for creating new Gyro is not fullfilled.
-
-**Code** : `500 Error`
-
-**Content** :
-
-```
-{
-    message : <Error message depending on the data error>,
-    data:{
-        <Error data if in development, in production mode it's empty>
-    }
-}
-```
-
-### Show Gyro by ID
-
-Show gyro by ID
-
-**URL** : `/gyro/:id`
-
-**Method** : `GET`
-
-**Auth required** : YES
-
-**Permissions required** : YES
-
-**Data constraints** : `{}`
-
-### Success Responses
-
----
-
-**Condition** : Gyro found with such ID.
-
-**Code** : `200 OK`
-
-**Content** :
-
-```
-{
-    message: "Gyro found",
-    data:{
-        _id:"<gyro id>",
-        threshold:"<current threshold from gyro>"
-    }
-}
-```
-
-### Error Responses
-
----
-
-**Condition** : Gyro not found
-
-**Code** : `400 Not found`
-
-**Content** :
-
-```
-{
-    message : "Gyro not found",
-    data:{}
-}
-```
-
-## Update Gyro by ID
-
-Update Gyro by ID
-
-**URL** : `/gyros/:id`
-
-**Method** : `PATCH`
-
-**Auth required** : YES
-
-**Permissions required** : YES
-
-**Data constraints** :
-
-```
-{
-    threshold:"<new gyro status>"
-}
-```
-
-### Success Responses
-
----
-
-**Condition** : Gyro found with such ID.
-
-**Code** : `200 OK`
-
-**Content** :
-
-```
-{
-    message: "Gyro Modified",
-    data:{
-      <Gyro's data after modification>
-    }
-}
-```
-
-### Error Responses
-
----
-
-**Condition** : Gyro not found
-
-**Code** : `400 Not found`
-
-**Content** :
-
-```
-{
-    message : "Gyro not found",
-    data:{}
-}
-```
-
-## Delete Gyro by ID
-
-Delete Gyro by ID
-
-**URL** : `/gyros/:id`
-
-**Method** : `DELETE`
-
-**Auth required** : YES
-
-**Permissions required** : YES
-
-**Data constraints** : `{}`
-
-### Success Responses
-
----
-
-**Condition** : Gyro found with such ID.
-
-**Code** : `200 OK`
-
-**Content** :
-
-```
-{
-    message: "Gyro successfully deleted",
-    data:{
-      <Gyro's data that was deleted>
-    }
-}
-```
-
-### Error Responses
-
----
-
-**Condition** : Gyro not found
-
-**Code** : `400 Not found`
-
-**Content** :
-
-```
-{
-    message : "Gyro not found",
-    data:{}
-}
-```
-
-## GPS Routes
-
-| Path     | Method | Description         |
-| -------- | ------ | ------------------- |
-| /gps     | POST   | Create new gps data |
-| /gps     | GET    | Get all gps         |
-| /gps/:id | GET    | Get gps by ID       |
-| /gps/:id | PATCH  | Update gps by ID    |
-| /gps/:id | DELETE | Delete gps by ID    |
-
-## Create new GPS
-
-Create new GPS entity.
-
-**URL** : `/GPS`
-
-**Method** : `POST`
-
-**Auth required** : Yes
-
-**Permissions required** : Yes
-
-**Data constraints** : `{ deviceID: String, long : Point, lat:Point }`
-
-### Success Responses
-
----
-
-**Condition** : GPS successfully created.
-
-**Code** : `201 OK`
-
-**Content** : `{ message : "GPS Successfully created", data:{} }`
-
-### Error Responses
-
----
-
-**Condition** : The requirements for creating new GPS is not fullfilled.
-
-**Code** : `500 Error`
-
-**Content** :
-
-```
-{
-    message : <Error message depending on the data error>,
-    data:{
-        <Error data if in development, in production mode it's empty>
-    }
-}
-```
-
-### Show GPS by ID
-
-Show GPS by ID
-
-**URL** : `/GPS/:id`
-
-**Method** : `GET`
-
-**Auth required** : YES
-
-**Permissions required** : YES
-
-**Data constraints** : `{}`
-
-### Success Responses
-
----
-
-**Condition** : GPS found with such ID.
-
-**Code** : `200 OK`
-
-**Content** :
-
-```
-{
-    message: "GPS found",
-    data:{
-        _id:"<GPS id>",
-        long;<>
-    }
-}
-```
-
-### Error Responses
-
----
-
-**Condition** : GPS not found
-
-**Code** : `400 Not found`
-
-**Content** :
-
-```
-{
-    message : "GPS not found",
-    data:{}
-}
-```
-
-## Update GPS by ID
-
-Update GPS by ID
-
-**URL** : `/GPS/:id`
-
-**Method** : `PATCH`
-
-**Auth required** : YES
-
-**Permissions required** : YES
-
-**Data constraints** :
-
-```
-{
-    threshold:"<new GPS status>"
-}
-```
-
-### Success Responses
-
----
-
-**Condition** : GPS found with such ID.
-
-**Code** : `200 OK`
-
-**Content** :
-
-```
-{
-    message: "GPS Modified",
-    data:{
-      <GPS's data after modification>
-    }
-}
-```
-
-### Error Responses
-
----
-
-**Condition** : GPS not found
-
-**Code** : `400 Not found`
-
-**Content** :
-
-```
-{
-    message : "GPS not found",
-    data:{}
-}
-```
-
-## Delete GPS by ID
-
-Delete GPS by ID
-
-**URL** : `/GPS/:id`
-
-**Method** : `DELETE`
-
-**Auth required** : YES
-
-**Permissions required** : YES
-
-**Data constraints** : `{}`
-
-### Success Responses
-
----
-
-**Condition** : GPS found with such ID.
-
-**Code** : `200 OK`
-
-**Content** :
-
-```
-{
-    message: "GPS successfully deleted",
-    data:{
-      <GPS's data that was deleted>
-    }
-}
-```
-
-### Error Responses
-
----
-
-**Condition** : GPS not found
-
-**Code** : `400 Not found`
-
-**Content** :
-
-```
-{
-    message : "GPS not found",
     data:{}
 }
 ```
