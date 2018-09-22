@@ -1,5 +1,5 @@
-const User = require("../models/users");
-const AuthHelper = require('../helpers/authHelper');
+const User = require("../models/User");
+const AuthHelper = require("../helpers/authHelper");
 
 class AuthMiddleware {
 	constructor() {}
