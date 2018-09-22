@@ -72,8 +72,8 @@ describe("parcel CRUD", function() {
 	describe("PATCH /parcels/:id", () => {
 		it("should return updated GPS", done => {
 			let updatedParcel = {
-				long: "123",
-				lat: "12",
+				long: 123,
+				lat: 12,
 				threshold: true
 			};
 
