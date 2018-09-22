@@ -54,19 +54,30 @@ class ParcelController {
 
 	static updateParcel(req, res) {
 		let parcelId = req.params.id;
-		const { long, lat, threshold } = req.body;
+		let { long, lat, threshold } = req.body;
+
 		if (long && lat && threshold) {
 			Parcel.findByIdAndUpdate(
 				parcelId,
 				{
 					$set: {
 						gyro: { threshold },
-						gps: { location: { long, lat } }
+						gps: {
+							location: { long, lat }
+						}
 					}
 				},
 				{ new: true }
 			)
 				.then(updatedParcel => {
+					parcelFirebaseController.patchParcelById(
+						updatedParcel._id,
+						{
+							lat: updatedParcel.gps.location.lat,
+							long: updatedParcel.gps.location.long,
+							threshold: updatedParcel.gyro.threshold
+						}
+					);
 					res.status(200).json(updatedParcel);
 				})
 				.catch(err => {
@@ -83,7 +94,6 @@ class ParcelController {
 
 	static remove(req, res) {
 		let parcelId = req.params.id;
-
 		Parcel.findByIdAndRemove(parcelId)
 			.then(removedParcel => {
 				parcelFirebaseController.deleteParcelById(parcelId);
