@@ -1,1 +1,20 @@
-runtime: nodejs10
+runtime: nodejs8
+
+env_variables: 
+  MONGODB_TEST_USER:hahajoan
+  MONGODB_TEST_PASS:hahajoan2345
+  MONGODB_TEST_HOST:ds159782.mlab.com
+  MONGODB_TEST_PORT:59782
+  MONGODB_ATLAS:mongodb://joanlamrack:Bl%40ckdrag0n2345@parcel-shard-00-00-ss47t.mongodb.net:27017,parcel-shard-00-00-ss47t.mongodb.net:27017,parcel-shard-00-01-ss47t.mongodb.net:27017,parcel-shard-00-02-ss47t.mongodb.net:27017/parcelpintar?ssl=true&replicaSet=Parcel-shard-0&authSource=admin
+  secret:ahsdfasdf
+  NODE_ENV:production
+  type:service_account
+  project_id:parcelpintar
+  private_key_id:2b595b69fb2968068b76b2502398f7499bad86fd
+  private_key:"-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCV7OWSWVBBFA1s\n5FQw4ce8cNy9COEHRMKeifHrWQbLknG1PMOB4eZMY1RbWwBhQCOVkL4zdzHmXGNM\nyhF7WGUcKikhvg02hSIwdX+9pfPJU5L7KjN1qT91EPLk8LyUvPlWuhDPmRfAuaag\nT6bvZv5NeieKqGA95zu8E+Cac5VEEzd+yYpqrFAmBRVeHDiyXW1V9z5ag/asfipF\nbZNWPwqhPaJwVOF+7wp4TQLBj2re6NwiSJ+Vg6tcg17HTWouRwDFuMMfRzJ3GvKS\nTUrQGOufzu1XKfSkHrmhqlP7g/o2xfRBbaOdxXhaN4dj2sVulxL+bTNLLTz5tplU\npic5/FnjAgMBAAECggEARAm5l2Rj2NzOSOwHzxUvjTOU4U69vIw2XDdS69C/ljPz\n2WFlgjRvzJvJRRozvm6al34T6ww9P4MO52LOczEG1bTGbNMwcN0TSnWQTpMY4vVD\n/yrEJrHzo99Ys5ASrNdjujl/do7N6j72QMtVAVE2uBdnCXRnFMCy6aQFqmIoy7bQ\nrXPjeaUqcK6G8Q7KicQZ0/yMwp2MmW6Rq/xrX7trtRuZ9GyWWX3OfetsSRjyW2Pz\nY17OaCQMC+Z2ujM2aaBEr2HdsslZdyBmeZFfMbMGkIjSeeQTKy8wiTHV/akWGpv5\nSuz2JNhxHkVeBiZ417XQ4McnAHsIuIEyWXEG2zJmmQKBgQDQrFHJVxOGUQ0srq7g\ndFFxvNbWe/mAG6IGJYb7SgHf2fwE4YWeckQGPJ1mm4t1UUCy/nZTHAfWKQEfXeMz\nzAGaNXSbHuurTOMTPuGFhVd4Bi49/5ol/yQaLmE0Qfftz5WdAHw38/SYa+QKReXK\nhrziFbOQPAv9ei5gzKAvZXeTKwKBgQC37aZTYdv8hu/3qneaoJJFnQFcVFuRUFdI\nj0fyK91abMe7km2/3b4uaG/mVzbFCMWJJBP502XobBX22EaVw9XnrddW62kn4mcY\nt3aGA2tK4b4HHpeyChwYdKEn0fdD+K9gH+RxtALBaUaa5hk+WjxsY/IQuMmoCBl0\n2f1Daj1YKQKBgDZR5ShoRmjciHVtM5CyNtFIuxQySYyTpOW8txqK9Vn0QKp0mnfY\nfuSwuriPHQp5EEKIAv03esLBAc3Mfuxo2rHt4GDQ98Arz6Ce6c38G/zefwMcml/x\nvtAh6qPT2FpLg0LPcYaPNsjGrSIPd/X0hQ7FX2zYdLaTK6d/HOO5ohrpAoGAGVNf\n05tl7x+lazTNwzzY5zz3Mv9qnFezrQoNngrsL8dKuUkwU3r09O7seYsIv5i1mmyd\nU4kIPziizZp6HaUZjw0g2ZcQo61JBN4+M7XE0ErFH7XWrW028SceCZ2frnxPqay6\nh+2Bc6BLWIjWcP970nDwo9zN55U17CEX/nBiggECgYBkCSu3OhYiNTBkX9BdmHH5\nrRZ/PkrFlgQH1t3BiMDrjbzyjQgA7cP4vSOo9giX7jGU3R8evLXxesh5YP1yuykE\nvmEK+r5mJ7WhHMhWBYmh67EGDeyS3eeP5ErgRhYYDed7XNA9iZKdAoxKuOPT2tjD\naSWqrEFBW2ROaYgfe2AboQ==\n-----END PRIVATE KEY-----\n"
+  client_email:firebase-adminsdk-67zwo@parcelpintar.iam.gserviceaccount.com
+  client_id:118030840496432356085
+  auth_uri:https://accounts.google.com/o/oauth2/auth
+  token_uri:https://oauth2.googleapis.com/token
+  auth_provider_x509_cert_url:https://www.googleapis.com/oauth2/v1/certs
+  client_x509_cert_url:https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-67zwo%40parcelpintar.iam.gserviceaccount.com
