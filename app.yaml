@@ -1,5 +1,4 @@
 runtime: nodejs8
-instance: 1
 
 env_variables:
   MONGODB_TEST_USER: "hahajoan"
