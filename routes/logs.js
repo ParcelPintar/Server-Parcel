@@ -1,13 +1,13 @@
 const router = require("express").Router();
-
+const logController = require("../controllers/logController");
 router
 	.route("/")
-	.get()
-	.post();
+	.get(logController.getAll)
+	.post(logController.create);
 
 router
 	.route("/:id")
-	.get()
-	.delete();
+	.get(logController.getById)
+	.delete(logController.deleteById);
 
 module.exports = router;
