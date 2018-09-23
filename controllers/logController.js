@@ -24,7 +24,7 @@ class LogController {
 		Log.find({})
 			.then(logFound => {
 				res.status(200).json({
-					message: "log found",
+					message: "logs successfully found",
 					data: logFound
 				});
 			})
@@ -37,7 +37,7 @@ class LogController {
 		Log.findById(req.params.id)
 			.then(logFound => {
 				res.status(200).json({
-					message: "log found",
+					message: "log successfully found",
 					data: logFound
 				});
 			})
@@ -46,10 +46,13 @@ class LogController {
 			});
 	}
 
-	static delete(req, res) {
+	static deleteById(req, res) {
 		Log.findByIdAndRemove(req.params.id)
 			.then(response => {
-				res.status(200).json({ message: "", data: response });
+				res.status(200).json({
+					message: "log successfully deleted",
+					data: response
+				});
 			})
 			.catch(err => {
 				res.status(400).json({ err: err.message });
