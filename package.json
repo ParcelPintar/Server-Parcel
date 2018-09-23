@@ -4,7 +4,7 @@
 	"description": "server parcelpintar",
 	"main": "index.js",
 	"scripts": {
-		"test": "mocha --exit",
+		"test": "nyc mocha --exit",
 		"coverage": "nyc --reporter=text-lcov npm test",
 		"start": "node app.js"
 	},
