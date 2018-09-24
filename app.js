@@ -21,7 +21,7 @@ let DBurl = {
 	}@${process.env.MONGODB_TEST_HOST}:${
 		process.env.MONGODB_TEST_PORT
 	}/parcelpintar_test`,
-	development: "mongodb://localhost:27017",
+	development: "mongodb://localhost:27017/parcelpintar_test",
 	production: process.env.MONGODB_ATLAS
 };
 

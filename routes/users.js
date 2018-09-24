@@ -8,8 +8,9 @@ router.post("/register", User.register);
 router.post("/login", User.login);
 
 router
-	.get("/:id", User.getUserById)
-	.delete("/:id", User.remove)
-	.patch("/:id", User.updateUser);
+	.route("/:id")
+	.get(User.getUserById)
+	.delete(User.remove)
+	.patch(User.updateUser);
 
 module.exports = router;
