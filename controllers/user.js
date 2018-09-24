@@ -2,8 +2,6 @@ const User = require("../models/User");
 const AuthHelper = require("../helpers/authHelper");
 
 class UserController {
-	constructor() {}
-
 	static register(req, res) {
 		const { name, email, password } = req.body;
 
@@ -47,7 +45,7 @@ class UserController {
 							error: "User not registered"
 						});
 					}
-				} else {          
+				} else {
 					res.status(404).json({
 						error: "User not registered"
 					});
@@ -62,8 +60,8 @@ class UserController {
 
 	static updateUser(req, res) {
 		let userId = req.params.id;
-
-		User.findByIdAndUpdate(userId, { $set: req.body }, { new: true })
+		const { name, email } = req.body;
+		User.findByIdAndUpdate(userId, { $set: { name, email } }, { new: true })
 			.then(updatedUser => {
 				res.status(200).json(updatedUser);
 			})
@@ -111,8 +109,6 @@ class UserController {
 	}
 
 	static getAllUsers(req, res) {
-		let userId = req.params.id;
-
 		User.find()
 			.populate("orders")
 			.populate("receivers")

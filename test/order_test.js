@@ -2,8 +2,6 @@ const chaiHTTP = require("chai-http");
 const chai = require("chai");
 const { USER_LOGIN, USER_REGISTER } = require("../const/user_const");
 const { ORDER_CREATE, ORDER_GET_BY_ID } = require("../const/order_const");
-const { CREATE_GYRO } = require("../const/gyro_const");
-const { CREATE_GPS } = require("../const/gps_const");
 const { CREATE_PARCEL } = require("../const/pp_const");
 let expect = chai.expect;
 chai.use(chaiHTTP);
@@ -28,13 +26,17 @@ let test_args = {
 };
 
 describe("Orders", function() {
-	this.timeout(10000);
+	this.timeout(15000);
 
 	describe("POST/orders", () => {
 		beforeEach(done => {
-			chai.request(app)
-				.post(USER_REGISTER)
-				.send(test_args.firstAccount)
+			User.deleteMany({})
+				.then(() => {
+					return chai
+						.request(app)
+						.post(USER_REGISTER)
+						.send(test_args.firstAccount);
+				})
 				.then(res => {
 					expect(res).to.have.status(201);
 					done();

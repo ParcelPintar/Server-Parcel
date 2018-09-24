@@ -1,8 +1,6 @@
 const { db } = require("../config/firebase");
 
 class parcelFirebaseController {
-	constructor() {}
-
 	static createNewParcel(newParcelId) {
 		return db
 			.ref("parcels/")

@@ -2,8 +2,6 @@ const Parcel = require("../models/ParcelPintar");
 const parcelFirebaseController = require("./parcelFirebaseController");
 
 class ParcelController {
-	constructor() {}
-
 	static create(req, res) {
 		Parcel.create({ gryo: {}, gps: {} })
 			.then(newParcel => {
