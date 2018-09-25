@@ -4,7 +4,7 @@ const logMiddleware = require("../middlewares/LogMiddleware");
 router
 	.route("/")
 	.get(logController.getAll)
-	.post(logMiddleware.injectOrderId, logController.create);
+	.post(logController.create);
 
 router
 	.route("/:id")
