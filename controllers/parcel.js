@@ -5,7 +5,8 @@ class ParcelController {
 	static create(req, res) {
 		Parcel.create({ gryo: {}, gps: {} })
 			.then(newParcel => {
-				parcelFirebaseController.createNewParcel(newParcel._id);
+				process.env.NODE_ENV === "development" &&
+					parcelFirebaseController.createNewParcel(newParcel._id);
 				res.status(201).json(newParcel);
 			})
 			.catch(err => {
@@ -68,14 +69,15 @@ class ParcelController {
 				{ new: true }
 			)
 				.then(updatedParcel => {
-					parcelFirebaseController.patchParcelById(
-						updatedParcel._id,
-						{
-							lat: updatedParcel.gps.location.lat,
-							long: updatedParcel.gps.location.long,
-							threshold: updatedParcel.gyro.threshold
-						}
-					);
+					process.env.NODE_ENV === "development" &&
+						parcelFirebaseController.patchParcelById(
+							updatedParcel._id,
+							{
+								lat: updatedParcel.gps.location.lat,
+								long: updatedParcel.gps.location.long,
+								threshold: updatedParcel.gyro.threshold
+							}
+						);
 					res.status(200).json(updatedParcel);
 				})
 				.catch(err => {
@@ -94,7 +96,8 @@ class ParcelController {
 		let parcelId = req.params.id;
 		Parcel.findByIdAndRemove(parcelId)
 			.then(removedParcel => {
-				parcelFirebaseController.deleteParcelById(parcelId);
+				process.env.NODE_ENV === "development" &&
+					parcelFirebaseController.deleteParcelById(parcelId);
 				res.status(200).json(removedParcel);
 			})
 			.catch(err => {

@@ -2,10 +2,10 @@ const Order = require("../models/Order");
 
 class LogMiddleware {
 	static injectOrderId(req, res, next) {
-		const { parcel } = req.body;
+		const { parcelId } = req.body;
 
 		Order.findOne({
-			parcel,
+			parcel: parcelId,
 			status: { $and: [{ $ne: "Completed" }, { $ne: "Delayed" }] },
 			$orderby: { createdAt: -1 }
 		})
