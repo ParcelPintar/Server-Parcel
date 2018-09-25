@@ -31,4 +31,16 @@ describe("app.js test", () => {
 				console.log(err);
 			});
 	});
+	// it("should return 500", done => {
+	// 	chai.request(app)
+	// 		.get("/users/asdfasdfasdfasdf")
+	// 		.then(response => {
+	// 			expect(response).to.have.status(500);
+	// 			expect(response).to.be.have.property("error");
+	// 			done();
+	// 		})
+	// 		.catch(err => {
+	// 			console.log(err);
+	// 		});
+	// });
 });
