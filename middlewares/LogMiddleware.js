@@ -10,6 +10,7 @@ class LogMiddleware {
 			$orderby: { createdAt: -1 }
 		})
 			.then(orderFound => {
+				console.log(orderFound);
 				if (Object.keys(orderFound).length) {
 					req.body.orderId = orderFound._id;
 					next();
