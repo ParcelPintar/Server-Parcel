@@ -2,15 +2,25 @@ const Log = require("../models/Log");
 
 class LogController {
 	static create(req, res) {
-		let { long, lat, threshold, parcelId, orderId } = req.body;
-
-		Log.create({
-			lat,
-			long,
-			threshold,
-			parcelId,
-			orderId
+		let { long, lat, threshold, parcelId } = req.body;
+		Order.findOne({
+			parcel: parcelId
 		})
+			.then(orderFound => {
+				if (Object.keys(orderFound).length) {
+					return Log.create({
+						lat,
+						long,
+						threshold,
+						parcelId,
+						orderId: orderFoundid
+					});
+				} else {
+					res.status(404).json({
+						error: "Parcel is unavailable"
+					});
+				}
+			})
 			.then(logCreated => {
 				res.status(201).json({
 					message: "log created",
