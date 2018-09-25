@@ -2,14 +2,7 @@ const Order = require("../models/Order");
 
 class OrderController {
 	static create(req, res) {
-		const {
-			receiver,
-			destination,
-			address,
-			pickup,
-			notes,
-			parcel
-		} = req.body;
+		const { receiver, destination, pickup, notes, parcel } = req.body;
 		const sender = req.headers.userId;
 
 		Order.create({
@@ -18,8 +11,7 @@ class OrderController {
 			pickup,
 			destination,
 			notes,
-			parcel,
-			address
+			parcel
 		})
 			.then(newOrder => {
 				res.status(201).json(newOrder);
@@ -34,7 +26,7 @@ class OrderController {
 	static getOrderById(req, res) {
 		let orderId = req.params.id;
 
-		Order.findOne(orderId)
+		Order.findById(orderId)
 			.then(orderFound => {
 				if (orderFound) {
 					res.status(200).json(orderFound);
