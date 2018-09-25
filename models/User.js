@@ -23,6 +23,11 @@ const userSchema = Schema(
 			required: true,
 			minlength: [6, "Password length minimum 6"]
 		},
+		role: {
+			type: String,
+			required: true,
+			default: "user"
+		},
 		orders: [{ type: Schema.Types.ObjectId, ref: "Order" }],
 		receivers: [{ type: Schema.Types.ObjectId, ref: "Order" }]
 	},

@@ -1,20 +1,20 @@
 const Order = require("../models/Order");
 
 class OrderController {
-	constructor() {}
-
 	static create(req, res) {
-		const { sender, receiver, address, destination, notes } = req.body;
+		const { receiver, address, destination, notes, parcel } = req.body;
+		const sender = req.headers.userId;
 
 		Order.create({
 			sender,
 			receiver,
 			address,
 			destination,
-			notes
+			notes,
+			parcel
 		})
 			.then(newOrder => {
-				res.status(200).json(newOrder);
+				res.status(201).json(newOrder);
 			})
 			.catch(err => {
 				res.status(400).json({
@@ -26,7 +26,7 @@ class OrderController {
 	static getOrderById(req, res) {
 		let orderId = req.params.id;
 
-		Order.findById(orderId)
+		Order.findOne(orderId)
 			.then(orderFound => {
 				if (orderFound) {
 					res.status(200).json(orderFound);
@@ -44,7 +44,7 @@ class OrderController {
 	}
 
 	static getAllOrders(req, res) {
-		Order.find()
+		Order.find({})
 			.then(orders => {
 				res.status(200).json(orders);
 			})
@@ -56,9 +56,9 @@ class OrderController {
 	}
 
 	static getSendOrder(req, res) {
-		let userId = req.userId;
+		let userId = req.headers.userId;
 
-		Order.findOne({ sender: userId })
+		Order.find({ sender: userId })
 			.then(orders => {
 				res.status(200).json(orders);
 			})
@@ -70,9 +70,9 @@ class OrderController {
 	}
 
 	static getReceiveOrder(req, res) {
-		let userId = req.userId;
+		let userId = req.headers.userId;
 
-		Order.findOne({ receiver: userId })
+		Order.find({ receiver: userId })
 			.then(orders => {
 				res.status(200).json(orders);
 			})
@@ -85,8 +85,13 @@ class OrderController {
 
 	static updateOrder(req, res) {
 		let orderId = req.params.id;
+		let userId = req.headers.userId;
 
-		Order.findByIdAndUpdate(orderId, { $set: req.body }, { new: true })
+		Order.findOneAndUpdate(
+			{ _id: orderId, sender: userId },
+			{ $set: req.body },
+			{ new: true }
+		)
 			.then(updatedOrder => {
 				res.status(200).json(updatedOrder);
 			})

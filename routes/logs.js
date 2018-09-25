@@ -1,9 +1,10 @@
 const router = require("express").Router();
 const logController = require("../controllers/logController");
+const logMiddleware = require("../middlewares/LogMiddleware");
 router
 	.route("/")
 	.get(logController.getAll)
-	.post(logController.create);
+	.post(logMiddleware.injectOrderId, logController.create);
 
 router
 	.route("/:id")

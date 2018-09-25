@@ -82,9 +82,8 @@ describe("Orders", function() {
 							.post(USER_REGISTER)
 							.send(test_args.secondAccount);
 
-						let new_user_id = createAnotherUserResponse._id;
-
 						expect(createAnotherUserResponse).to.have.status(201);
+						let new_user_id = createAnotherUserResponse.body._id;
 
 						let parcel_create_response = await chai
 							.request(app)
@@ -98,8 +97,11 @@ describe("Orders", function() {
 							.send({
 								receiver: new_user_id,
 								destination: 12.78,
-								address: "pondok Indah"
+								address: "pondok Indah",
+								parcel: parcel_create_response.body._id
 							});
+						console.log(order_create_response.body);
+						expect(order_create_response).to.have.status(201);
 						done();
 					} catch (err) {
 						console.log(err);
@@ -139,6 +141,108 @@ describe("Orders", function() {
 							});
 
 						expect(order_create_response).to.have.status(400);
+						done();
+					} catch (err) {
+						console.log(err);
+					}
+				})
+				.catch(err => {
+					console.log(err);
+				});
+		});
+
+		it("should return not authorized ", done => {
+			chai.request(app)
+				.post(USER_LOGIN)
+				.send({
+					email: test_args.firstAccount.email,
+					password: test_args.firstAccount.password
+				})
+				.then(async res => {
+					expect(res).to.have.status(200);
+					let token = res.body.token;
+
+					try {
+						let createAnotherUserResponse = await chai
+							.request(app)
+							.post(USER_REGISTER)
+							.send(test_args.secondAccount);
+
+						expect(createAnotherUserResponse).to.have.status(201);
+						let new_user_id = createAnotherUserResponse.body._id;
+
+						let parcel_create_response = await chai
+							.request(app)
+							.post(CREATE_PARCEL);
+						expect(parcel_create_response).to.have.status(201);
+
+						let order_create_response = await chai
+							.request(app)
+							.post(ORDER_CREATE)
+							.send({
+								receiver: new_user_id,
+								destination: 12.78,
+								address: "pondok Indah",
+								parcel: parcel_create_response.body._id
+							});
+						expect(order_create_response).to.have.status(403);
+						expect(order_create_response.body).to.have.property(
+							"error"
+						);
+						expect(order_create_response.body.error).to.be.equal(
+							"not authorized"
+						);
+						done();
+					} catch (err) {
+						console.log(err);
+					}
+				})
+				.catch(err => {
+					console.log(err);
+				});
+		});
+
+		it("should return invalid token", done => {
+			chai.request(app)
+				.post(USER_LOGIN)
+				.send({
+					email: test_args.firstAccount.email,
+					password: test_args.firstAccount.password
+				})
+				.then(async res => {
+					expect(res).to.have.status(200);
+					let token = res.body.token;
+					try {
+						let createAnotherUserResponse = await chai
+							.request(app)
+							.post(USER_REGISTER)
+							.send(test_args.secondAccount);
+
+						expect(createAnotherUserResponse).to.have.status(201);
+						let new_user_id = createAnotherUserResponse.body._id;
+
+						let parcel_create_response = await chai
+							.request(app)
+							.post(CREATE_PARCEL);
+						expect(parcel_create_response).to.have.status(201);
+
+						let order_create_response = await chai
+							.request(app)
+							.post(ORDER_CREATE)
+							.set("token", token.slice(1))
+							.send({
+								receiver: new_user_id,
+								destination: 12.78,
+								address: "pondok Indah",
+								parcel: parcel_create_response.body._id
+							});
+						expect(order_create_response).to.have.status(400);
+						expect(order_create_response.body).to.have.property(
+							"error"
+						);
+						expect(order_create_response.body.error).to.be.equal(
+							"invalid token"
+						);
 						done();
 					} catch (err) {
 						console.log(err);

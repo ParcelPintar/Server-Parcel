@@ -34,7 +34,8 @@ class UserController {
 						let token = AuthHelper.createToken({
 							id: userFound.id,
 							name: userFound.name,
-							email: userFound.email
+							email: userFound.email,
+							role: userFound.role
 						});
 
 						res.status(200).json({
