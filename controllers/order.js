@@ -2,16 +2,24 @@ const Order = require("../models/Order");
 
 class OrderController {
 	static create(req, res) {
-		const { receiver, address, destination, notes, parcel } = req.body;
+		const {
+			receiver,
+			destination,
+			address,
+			pickup,
+			notes,
+			parcel
+		} = req.body;
 		const sender = req.headers.userId;
 
 		Order.create({
 			sender,
 			receiver,
-			address,
+			pickup,
 			destination,
 			notes,
-			parcel
+			parcel,
+			address
 		})
 			.then(newOrder => {
 				res.status(201).json(newOrder);
