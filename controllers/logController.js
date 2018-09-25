@@ -1,13 +1,15 @@
 const Log = require("../models/Log");
 
 class LogController {
-	constructor() {}
 	static create(req, res) {
-		let { long, lat, threshold } = req.body;
+		let { long, lat, threshold, parcelId, orderId } = req.body;
+
 		Log.create({
 			lat,
 			long,
-			threshold
+			threshold,
+			parcelId,
+			orderId
 		})
 			.then(logCreated => {
 				res.status(200).json({

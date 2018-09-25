@@ -6,11 +6,16 @@ const logsRouter = require("./logs");
 const authMiddleware = require("../middlewares/authMiddleware");
 
 router.use("/users", usersRouter);
-router.use("/orders", ordersRouter);
+router.use(
+	"/orders",
+	authMiddleware.checkifTokenExist,
+	authMiddleware.checkifTokenValid,
+	ordersRouter
+);
 router.use("/parcels", parcelsRouter);
 router.use("/logs", logsRouter);
 
-router.use("/", (req, res) => {
+router.get("/", (req, res) => {
 	res.send("Welcome to ParcelPintar API");
 });
 

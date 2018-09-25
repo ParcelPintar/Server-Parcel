@@ -3,6 +3,16 @@ const Schema = mongoose.Schema;
 
 const LogSchema = Schema(
 	{
+		orderId: {
+			type: Schema.Types.ObjectId,
+			required: true,
+			ref: "Order"
+		},
+		parcelId: {
+			type: Schema.Types.ObjectId,
+			required: true,
+			ref: "Parcel"
+		},
 		long: {
 			type: Schema.Types.Number,
 			required: true
@@ -12,8 +22,7 @@ const LogSchema = Schema(
 			required: true
 		},
 		threshold: {
-			type: Schema.Types.Number,
-			required: true
+			type: Schema.Types.Number
 		}
 	},
 	{

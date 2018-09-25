@@ -3,7 +3,12 @@ const Schema = mongoose.Schema;
 
 const orderSchema = Schema(
 	{
-		status: String, // delayed, arrived, etc.
+		status: {
+			type: Schema.Types.String,
+			enum: ["Pickup", "Ongoing", "Completed", "Delayed"],
+			required: true,
+			default: "Pickup"
+		}, // delayed, arrived, etc.
 		sender: {
 			type: Schema.Types.ObjectId,
 			ref: "User",
@@ -29,7 +34,12 @@ const orderSchema = Schema(
 		},
 		notes: {
 			type: String
-		} // other things that might be a concern that related to the deliver
+		}, // other things that might be a concern that related to the deliver,
+		parcel: {
+			type: Schema.Types.ObjectId,
+			ref: "ParcelPintar",
+			required: true
+		}
 	},
 	{
 		timestamps: true

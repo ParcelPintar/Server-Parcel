@@ -2,8 +2,6 @@ const User = require("../models/User");
 const AuthHelper = require("../helpers/authHelper");
 
 class AuthMiddleware {
-	constructor() {}
-
 	static checkifTokenExist(req, res, next) {
 		if (req.headers.token) {
 			next();
@@ -21,11 +19,12 @@ class AuthMiddleware {
 			User.findById(id)
 				.then(userfound => {
 					if (userfound) {
-						req.userId = userfound._id;
+						req.headers.userId = userfound._id;
+						req.headers.role = userfound.role;
 						next();
 					} else {
-						res.status(404).json({
-							error: "user not found"
+						res.status(400).json({
+							error: "invalid token"
 						});
 					}
 				})
@@ -37,6 +36,16 @@ class AuthMiddleware {
 		} catch (error) {
 			res.status(400).json({
 				error: error.message
+			});
+		}
+	}
+
+	static checkifAdmin(req, res, next) {
+		if (req.headers.role && req.headers.role === "admin") {
+			next();
+		} else {
+			res.status(403).json({
+				error: "Not Authorized"
 			});
 		}
 	}
