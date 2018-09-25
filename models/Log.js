@@ -22,7 +22,7 @@ const LogSchema = Schema(
 			required: true
 		},
 		threshold: {
-			type: Schema.Types.Number
+			type: Schema.Types.Boolean
 		}
 	},
 	{
