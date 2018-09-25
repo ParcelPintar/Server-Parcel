@@ -13,7 +13,7 @@ class LogController {
 		})
 			.then(logCreated => {
 				res.status(201).json({
-					message: "log found",
+					message: "log created",
 					data: logCreated
 				});
 			})
