@@ -5,12 +5,9 @@ class LogMiddleware {
 		const { parcelId } = req.body;
 
 		Order.findOne({
-			parcel: parcelId,
-			status: { $and: [{ $ne: "Completed" }, { $ne: "Delayed" }] },
-			$orderby: { createdAt: -1 }
+			parcel: parcelId
 		})
 			.then(orderFound => {
-				console.log(orderFound);
 				if (Object.keys(orderFound).length) {
 					req.body.orderId = orderFound._id;
 					next();
