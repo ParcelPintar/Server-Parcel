@@ -19,18 +19,13 @@ const orderSchema = Schema(
 			ref: "User",
 			required: true
 		},
-		address: {
-			type: String,
-			required: true
+		pickup: {
+			long: { type: Schema.Types.Number, required: true },
+			lat: { type: Schema.Types.Number, required: true }
 		},
 		destination: {
-			type: {
-				type: String, // Don't do `{ location: { type: String } }`
-				enum: ["Point"] // 'location.type' must be 'Point'
-			},
-			coordinates: {
-				type: [Number]
-			}
+			long: { type: Schema.Types.Number, required: true },
+			lat: { type: Schema.Types.Number, required: true }
 		},
 		notes: {
 			type: String
