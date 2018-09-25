@@ -1,4 +1,5 @@
 const Log = require("../models/Log");
+const Order = require("../models/Order");
 
 class LogController {
 	static create(req, res) {
