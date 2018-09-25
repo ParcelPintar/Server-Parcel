@@ -13,7 +13,7 @@ class LogController {
 						long,
 						threshold,
 						parcelId,
-						orderId: orderFoundid
+						orderId: orderFound._id
 					});
 				} else {
 					res.status(404).json({
