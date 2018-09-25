@@ -96,7 +96,14 @@ describe("Orders", function() {
 							.set("token", token)
 							.send({
 								receiver: new_user_id,
-								destination: 12.78,
+								destination: {
+									long: 234234234,
+									lat: 234234234234
+								},
+								pickup: {
+									long: 234123421,
+									lat: 13234e234
+								},
 								address: "pondok Indah",
 								parcel: parcel_create_response.body._id
 							});
