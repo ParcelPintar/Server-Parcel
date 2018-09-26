@@ -39,15 +39,9 @@ class ParcelController {
 	}
 
 	static getAllParcels(req, res) {
-		Parcel.find({})
-			.then(parcels => {
-				res.status(200).json(parcels);
-			})
-			.catch(err => {
-				res.status(400).json({
-					error: err.message
-				});
-			});
+		Parcel.find({}).then(parcels => {
+			res.status(200).json(parcels);
+		});
 	}
 
 	static updateParcel(req, res) {
