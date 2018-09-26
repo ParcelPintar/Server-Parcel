@@ -38,7 +38,7 @@ function sendEmail(emailTemplate, to) {
 			console.log(data);
 		})
 		.catch(err => {
-			console.log(err.message);
+			console.log(err);
 		});
 }
 function prepareEmail(emailtemplatename, argsreplacer) {
