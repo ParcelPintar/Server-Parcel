@@ -37,11 +37,11 @@ class MailController {
 		};
 
 		axios(options)
-			.then(response => {
-				console.log(response);
+			.then(({ data }) => {
+				console.log(data.body);
 			})
 			.catch(err => {
-				console.log(err);
+				console.log(err.message);
 			});
 	}
 
