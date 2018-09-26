@@ -19,11 +19,11 @@ class MailController {
 			process.env.MAILGUN_USERNM,
 			process.env.MAILGUN_APIKEY
 		);
-		let uri = process.env.MAILGUN_DOMAIN;
+		let url = process.env.MAILGUN_DOMAIN;
 
 		let options = {
 			method: "POST",
-			uri: uri,
+			url: url,
 			headers: {
 				Authorization: authorization,
 				"Content-Type": "application/x-www-form-urlencoded"
