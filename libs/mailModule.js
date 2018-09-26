@@ -1,4 +1,4 @@
-const request = require("request-promise");
+const axios = require("axios");
 const fs = require("fs");
 const BasicAuth = require("../helpers/authhelper").createBasicAuth;
 const querystring = require("querystring");
@@ -41,7 +41,7 @@ class MailController {
 			})
 		};
 
-		request(options)
+		axios(options)
 			.then(response => {
 				console.log(response);
 			})
