@@ -38,6 +38,7 @@ describe("Orders", function() {
 						.send(test_args.firstAccount);
 				})
 				.then(res => {
+					console.log(res.body);
 					expect(res).to.have.status(201);
 					done();
 				})

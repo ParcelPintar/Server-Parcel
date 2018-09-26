@@ -18,7 +18,7 @@ const LogSchema = Schema(
 			required: true
 		},
 		lat: {
-			type: Schema.Types.String,
+			type: Schema.Types.Number,
 			required: true
 		},
 		threshold: {
