@@ -1,6 +1,6 @@
 const axios = require("axios");
 const fs = require("fs");
-const BasicAuth = require("../helpers/authhelper").createBasicAuth;
+const BasicAuth = require("../helpers/authHelper").createBasicAuth;
 const querystring = require("querystring");
 
 const template = {
