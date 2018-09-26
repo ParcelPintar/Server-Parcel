@@ -22,7 +22,8 @@ class AuthHelper {
 
 	static createBasicAuth(username, password) {
 		return (
-			"Basic " + new Buffer(username + ":" + password).toString("base64")
+			"Basic " +
+			new Buffer.from(username + ":" + password).toString("base64")
 		);
 	}
 }

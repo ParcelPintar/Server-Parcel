@@ -58,10 +58,9 @@ class MailController {
 		}
 	}
 
-	static createAndSendEmail(to, templateOccasion, argsreplacer, done) {
+	static createAndSendEmail(to, templateOccasion, argsreplacer) {
 		let email_ready = this.prepareEmail(templateOccasion, argsreplacer);
 		this.sendEmail(email_ready, to);
-		done();
 	}
 }
 
