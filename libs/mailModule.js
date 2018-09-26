@@ -71,4 +71,4 @@ class MailController {
 // 	"Joanlmarack"
 // );
 
-module.exports = MailController.createAndSendEmail;
+module.exports = MailController;

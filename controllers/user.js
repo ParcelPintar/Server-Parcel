@@ -12,7 +12,11 @@ class UserController {
 			password
 		})
 			.then(newUser => {
-				mailModule(newUser.email, "registered-manual", newUser.name);
+				mailModule.createAndSendEmail(
+					newUser.email,
+					"registered-manual",
+					newUser.name
+				);
 				res.status(201).json(newUser);
 			})
 			.catch(err => {
