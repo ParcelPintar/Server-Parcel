@@ -11,57 +11,52 @@ const template = {
 	}
 };
 
-class MailController {
-	constructor() {}
+function sendEmail(emailTemplate, to) {
+	let authorization = BasicAuth(
+		process.env.MAILGUN_USERNM,
+		process.env.MAILGUN_APIKEY
+	);
+	let url = process.env.MAILGUN_DOMAIN;
 
-	static sendEmail(emailTemplate, to) {
-		let authorization = BasicAuth(
-			process.env.MAILGUN_USERNM,
-			process.env.MAILGUN_APIKEY
-		);
-		let url = process.env.MAILGUN_DOMAIN;
+	let options = {
+		method: "POST",
+		url: url,
+		headers: {
+			Authorization: authorization,
+			"Content-Type": "application/x-www-form-urlencoded"
+		},
+		body: querystring.stringify({
+			from: "Tumpukan Tumpah Bot <mailgun@mg.joanlamrack.me>",
+			to: [to, "mg@mg.joanlamrack.me"],
+			subject: emailTemplate.subject,
+			html: emailTemplate.html
+		})
+	};
 
-		let options = {
-			method: "POST",
-			url: url,
-			headers: {
-				Authorization: authorization,
-				"Content-Type": "application/x-www-form-urlencoded"
-			},
-			body: querystring.stringify({
-				from: "Tumpukan Tumpah Bot <mailgun@mg.joanlamrack.me>",
-				to: [to, "mg@mg.joanlamrack.me"],
-				subject: emailTemplate.subject,
-				html: emailTemplate.html
-			})
+	axios(options)
+		.then(({ data }) => {
+			console.log(data.body);
+		})
+		.catch(err => {
+			console.log(err.message);
+		});
+}
+function prepareEmail(emailtemplatename, argsreplacer) {
+	let chosenEmailTemplate = template[emailtemplatename];
+	if (chosenEmailTemplate) {
+		let preparedEmail = chosenEmailTemplate.html
+			.toString()
+			.replace(`{{${chosenEmailTemplate.vars}}}`, argsreplacer);
+		return {
+			html: preparedEmail,
+			subject: chosenEmailTemplate.subject
 		};
-
-		axios(options)
-			.then(({ data }) => {
-				console.log(data.body);
-			})
-			.catch(err => {
-				console.log(err.message);
-			});
 	}
+}
 
-	static prepareEmail(emailtemplatename, argsreplacer) {
-		let chosenEmailTemplate = template[emailtemplatename];
-		if (chosenEmailTemplate) {
-			let preparedEmail = chosenEmailTemplate.html
-				.toString()
-				.replace(`{{${chosenEmailTemplate.vars}}}`, argsreplacer);
-			return {
-				html: preparedEmail,
-				subject: chosenEmailTemplate.subject
-			};
-		}
-	}
-
-	static createAndSendEmail(to, templateOccasion, argsreplacer) {
-		let email_ready = this.prepareEmail(templateOccasion, argsreplacer);
-		this.sendEmail(email_ready, to);
-	}
+function createAndSendEmail(to, templateOccasion, argsreplacer) {
+	let email_ready = prepareEmail(templateOccasion, argsreplacer);
+	sendEmail(email_ready, to);
 }
 
 // MailController.createAndSendEmail(
@@ -69,5 +64,8 @@ class MailController {
 // 	"registered-manual",
 // 	"Joanlmarack"
 // );
-
-module.exports = MailController;
+module.exports = {
+	createAndSendEmail,
+	sendEmail,
+	prepareEmail
+};

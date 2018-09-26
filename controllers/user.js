@@ -1,6 +1,10 @@
 const User = require("../models/User");
 const AuthHelper = require("../helpers/authHelper");
-const mailModule = require("../libs/mailModule");
+const {
+	createAndSendEmail,
+	prepareEmail,
+	sendEmail
+} = require("../libs/mailModule");
 
 class UserController {
 	static register(req, res) {
