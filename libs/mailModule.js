@@ -8,11 +8,6 @@ const template = {
 		html: fs.readFileSync("./email-templates/action.html", "utf8"),
 		subject: "Kamu sudah menjadi bagian dari Tumpukan!",
 		vars: "username"
-	},
-	"alert-reset-password": {
-		html: fs.readFileSync("./email-templates/alert.html", "utf8"),
-		subject: "Kamu Lupa password?",
-		vars: "link"
 	}
 };
 
