@@ -35,7 +35,7 @@ function sendEmail(emailTemplate, to) {
 
 	axios(options)
 		.then(({ data }) => {
-			console.log(data.body);
+			console.log(data);
 		})
 		.catch(err => {
 			console.log(err.message);
