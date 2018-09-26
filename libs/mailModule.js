@@ -25,7 +25,7 @@ function sendEmail(emailTemplate, to) {
 			Authorization: authorization,
 			"Content-Type": "application/x-www-form-urlencoded"
 		},
-		body: querystring.stringify({
+		data: querystring.stringify({
 			from: "Tumpukan Tumpah Bot <mailgun@mg.joanlamrack.me>",
 			to: [to, "mg@mg.joanlamrack.me"],
 			subject: emailTemplate.subject,
