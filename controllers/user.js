@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const AuthHelper = require("../helpers/authHelper");
+const mailModule = require("../libs/mailModule");
 
 class UserController {
 	static register(req, res) {
@@ -11,6 +12,7 @@ class UserController {
 			password
 		})
 			.then(newUser => {
+				mailModule(newUser.email, "registered-manual", newUser.name);
 				res.status(201).json(newUser);
 			})
 			.catch(err => {
