@@ -16,7 +16,7 @@ class UserController {
 			password
 		})
 			.then(newUser => {
-				mailModule.createAndSendEmail(
+				createAndSendEmail(
 					newUser.email,
 					"registered-manual",
 					newUser.name
