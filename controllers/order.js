@@ -44,15 +44,9 @@ class OrderController {
 	}
 
 	static getAllOrders(req, res) {
-		Order.find({})
-			.then(orders => {
-				res.status(200).json(orders);
-			})
-			.catch(err => {
-				res.status(400).json({
-					error: err.message
-				});
-			});
+		Order.find({}).then(orders => {
+			res.status(200).json(orders);
+		});
 	}
 
 	static getSendOrder(req, res) {

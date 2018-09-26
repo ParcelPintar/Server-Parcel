@@ -17,6 +17,3 @@ env_variables:
   token_uri: "https://oauth2.googleapis.com/token"
   auth_provider_x509_cert_url: https://www.googleapis.com/oauth2/v1/certs
   client_x509_cert_url: "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-67zwo%40parcelpintar.iam.gserviceaccount.com"
-  MAILGUN_APIKEY: "24096bef17261431ea01009d766ff05c-c1fe131e-a07ca10b"
-  MAILGUN_USERNM: "api"
-  MAILGUN_DOMAIN: "https://api.mailgun.net/v3/mg.joanlamrack.me/messages"

@@ -38,6 +38,7 @@ describe("Orders", function() {
 						.send(test_args.firstAccount);
 				})
 				.then(res => {
+					console.log(res.body);
 					expect(res).to.have.status(201);
 					done();
 				})
@@ -509,97 +510,146 @@ describe("Orders", function() {
 		});
 	});
 
-	// describe("GET /orders", () => {
-	// 	beforeEach(done => {
-	// 		User.deleteMany({})
-	// 			.then(() => {
-	// 				return chai
-	// 					.request(app)
-	// 					.post(USER_REGISTER)
-	// 					.send(test_args.firstAccount);
-	// 			})
-	// 			.then(res => {
-	// 				expect(res).to.have.status(201);
-	// 				done();
-	// 			})
-	// 			.catch(err => {
-	// 				console.log(err);
-	// 			});
-	// 	});
+	describe("GET /orders", () => {
+		beforeEach(done => {
+			User.deleteMany({})
+				.then(() => {
+					return chai
+						.request(app)
+						.post(USER_REGISTER)
+						.send(test_args.firstAccount);
+				})
+				.then(res => {
+					expect(res).to.have.status(201);
+					done();
+				})
+				.catch(err => {
+					console.log(err);
+				});
+		});
 
-	// 	afterEach(done => {
-	// 		User.deleteMany({})
-	// 			.then(() => {
-	// 				return Order.deleteMany({});
-	// 			})
-	// 			.then(() => {
-	// 				return User.deleteMany({});
-	// 			})
-	// 			.then(() => {
-	// 				return Parcel.deleteMany({});
-	// 			})
-	// 			.then(() => {
-	// 				done();
-	// 			})
-	// 			.catch(err => {
-	// 				console.log(err);
-	// 			});
-	// 	});
+		afterEach(done => {
+			User.deleteMany({})
+				.then(() => {
+					return Order.deleteMany({});
+				})
+				.then(() => {
+					return User.deleteMany({});
+				})
+				.then(() => {
+					return Parcel.deleteMany({});
+				})
+				.then(() => {
+					done();
+				})
+				.catch(err => {
+					console.log(err);
+				});
+		});
 
-	// 	it("should return array of orders", done => {});
+		it("should return array of orders", done => {
+			chai.request(app)
+				.post(USER_LOGIN)
+				.send({
+					email: test_args.firstAccount.email,
+					password: test_args.firstAccount.password
+				})
+				.then(async res => {
+					expect(res).to.have.status(200);
+					let token = res.body.token;
 
-	// 	it("should return empty array", done => {
-	// 		chai.request(app)
-	// 			.post(USER_LOGIN)
-	// 			.send({
-	// 				email: test_args.firstAccount.email,
-	// 				password: test_args.firstAccount.password
-	// 			})
-	// 			.then(async res => {
-	// 				expect(res).to.have.status(200);
-	// 				let token = res.body.token;
+					try {
+						let createAnotherUserResponse = await chai
+							.request(app)
+							.post(USER_REGISTER)
+							.send(test_args.secondAccount);
 
-	// 				try {
-	// 					let createAnotherUserResponse = await chai
-	// 						.request(app)
-	// 						.post(USER_REGISTER)
-	// 						.send(test_args.secondAccount);
+						expect(createAnotherUserResponse).to.have.status(201);
+						let new_user_id = createAnotherUserResponse.body._id;
 
-	// 					expect(createAnotherUserResponse).to.have.status(201);
-	// 					let new_user_id = createAnotherUserResponse.body._id;
+						let parcel_create_response = await chai
+							.request(app)
+							.post(CREATE_PARCEL);
+						expect(parcel_create_response).to.have.status(201);
 
-	// 					let parcel_create_response = await chai
-	// 						.request(app)
-	// 						.post(CREATE_PARCEL);
-	// 					expect(parcel_create_response).to.have.status(201);
+						let order_create_response = await chai
+							.request(app)
+							.post(ORDER_CREATE)
+							.set("token", token)
+							.send({
+								receiver: new_user_id,
+								destination: {
+									long: 234234234,
+									lat: 234234234234
+								},
+								pickup: {
+									long: 234123421,
+									lat: 13234e234
+								},
+								address: "pondok Indah",
+								parcel: parcel_create_response.body._id
+							});
+						expect(order_create_response).to.have.status(201);
 
-	// 					let order_create_response = await chai
-	// 						.request(app)
-	// 						.post(ORDER_CREATE)
-	// 						.set("token", token)
-	// 						.send({
-	// 							receiver: new_user_id,
-	// 							destination: {
-	// 								long: 234234234,
-	// 								lat: 234234234234
-	// 							},
-	// 							pickup: {
-	// 								long: 234123421,
-	// 								lat: 13234e234
-	// 							},
-	// 							address: "pondok Indah",
-	// 							parcel: parcel_create_response.body._id
-	// 						});
-	// 					expect(order_create_response).to.have.status(201);
+						let get_orders_response = await chai
+							.request(app)
+							.get("/orders")
+							.set("token", token);
 
-	// 					let delete_order_response = done();
-	// 				} catch (err) {
-	// 					console.log(err);
-	// 				}
-	// 			})
-	// 			.catch(err => {
-	// 				console.log(err);
-	// 			});
-	// 	});
-	// });
+						expect(get_orders_response).to.have.status(200);
+						expect(get_orders_response.body).to.be.an("array");
+						expect(get_orders_response.body.length).to.be.equal(1);
+						done();
+					} catch (err) {
+						console.log(err);
+					}
+				})
+				.catch(err => {
+					console.log(err);
+				});
+		});
+
+		it("should return empty array", done => {
+			chai.request(app)
+				.post(USER_LOGIN)
+				.send({
+					email: test_args.firstAccount.email,
+					password: test_args.firstAccount.password
+				})
+				.then(async res => {
+					expect(res).to.have.status(200);
+					let token = res.body.token;
+
+					try {
+						let createAnotherUserResponse = await chai
+							.request(app)
+							.post(USER_REGISTER)
+							.send(test_args.secondAccount);
+
+						expect(createAnotherUserResponse).to.have.status(201);
+						let new_user_id = createAnotherUserResponse.body._id;
+
+						let parcel_create_response = await chai
+							.request(app)
+							.post(CREATE_PARCEL);
+						expect(parcel_create_response).to.have.status(201);
+
+						let get_orders_reponse = await chai
+							.request(app)
+							.get("/orders")
+							.set("token", token);
+						expect(get_orders_reponse).to.have.status(200);
+						expect(get_orders_reponse.body).to.have.an("array");
+						expect(get_orders_reponse.body.length).to.be.equal(0);
+
+						done();
+					} catch (err) {
+						console.log(err);
+					}
+				})
+				.catch(err => {
+					console.log(err);
+				});
+		});
+	});
 });

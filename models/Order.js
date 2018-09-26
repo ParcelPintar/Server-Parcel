@@ -33,7 +33,8 @@ const orderSchema = Schema(
 		parcel: {
 			type: Schema.Types.ObjectId,
 			ref: "ParcelPintar",
-			required: true
+			required: true,
+			default: "5ba9e60dc819600005b5b48e"
 		}
 	},
 	{
