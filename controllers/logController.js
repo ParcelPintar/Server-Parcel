@@ -1,5 +1,10 @@
 const Log = require("../models/Log");
 const Order = require("../models/Order");
+const {
+	createAndSendEmail,
+	prepareEmail,
+	sendEmail
+} = require("../libs/mailModule");
 
 class LogController {
 	static create(req, res) {
@@ -7,7 +12,13 @@ class LogController {
 		Order.findOne({
 			parcel: parcelId
 		})
+			.populate("sender")
 			.then(orderFound => {
+				createAndSendEmail(
+					orderFound.sender.email,
+					"alert",
+					orderFound.sender.name
+				);
 				if (Object.keys(orderFound).length) {
 					return Log.create({
 						lat,
