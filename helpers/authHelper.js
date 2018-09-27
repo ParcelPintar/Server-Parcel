@@ -2,7 +2,6 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 class AuthHelper {
-	constructor() {}
 
 	static hashpass(password) {
 		return bcrypt.hashSync(password);

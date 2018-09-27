@@ -3,16 +3,10 @@ const parcelFirebaseController = require("./parcelFirebaseController");
 
 class ParcelController {
 	static create(req, res) {
-		Parcel.create({ gryo: {}, gps: {} })
-			.then(newParcel => {
-				parcelFirebaseController.createNewParcel(newParcel._id);
-				res.status(201).json(newParcel);
-			})
-			.catch(err => {
-				res.status(400).json({
-					error: err.message
-				});
-			});
+		Parcel.create({ gryo: {}, gps: {} }).then(newParcel => {
+			parcelFirebaseController.createNewParcel(newParcel._id);
+			res.status(201).json(newParcel);
+		});
 	}
 
 	static getParcelById(req, res) {

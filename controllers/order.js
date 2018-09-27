@@ -52,41 +52,32 @@ class OrderController {
 	static getSendOrder(req, res) {
 		let userId = req.headers.userId;
 
-		Order.find({ sender: userId })
-			.then(orders => {
-				res.status(200).json(orders);
-			})
-			.catch(err => {
-				res.status(400).json({
-					error: err.message
-				});
-			});
+		Order.find({ sender: userId }).then(orders => {
+			res.status(200).json(orders);
+		});
 	}
 
 	static getReceiveOrder(req, res) {
 		let userId = req.headers.userId;
 
-		Order.find({ receiver: userId })
-			.then(orders => {
-				res.status(200).json(orders);
-			})
-			.catch(err => {
-				res.status(400).json({
-					error: err.message
-				});
-			});
+		Order.find({ receiver: userId }).then(orders => {
+			res.status(200).json(orders);
+		});
 	}
 
 	static updateOrder(req, res) {
 		let orderId = req.params.id;
-		let userId = req.headers.userId;
+		let role = req.headers.role;
+		let { status } = req.body;
+		let request = { _id: orderId, sender: req.headers.userId };
 
-		Order.findOneAndUpdate(
-			{ _id: orderId, sender: userId },
-			{ $set: req.body },
-			{ new: true }
-		)
+		if (role === "admin") {
+			request = { _id: orderId };
+		}
+
+		Order.findOneAndUpdate(request, { $set: { status } }, { new: true })
 			.then(updatedOrder => {
+				console.log("modified ----->>>", updatedOrder);
 				res.status(200).json(updatedOrder);
 			})
 			.catch(err => {
