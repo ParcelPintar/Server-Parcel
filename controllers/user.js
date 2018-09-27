@@ -17,11 +17,11 @@ class UserController {
 			role
 		})
 			.then(newUser => {
-				// createAndSendEmail(
-				// 	newUser.email,
-				// 	"registered-manual",
-				// 	newUser.name
-				// );
+				createAndSendEmail(
+					newUser.email,
+					"registered-manual",
+					newUser.name
+				);
 				res.status(201).json(newUser);
 			})
 			.catch(err => {
@@ -34,7 +34,7 @@ class UserController {
 	static login(req, res) {
 		const { email, password } = req.body;
 
-		User.findOne({ email })
+		User.findOne({ email: email })
 			.then(userFound => {
 				if (userFound) {
 					let passwordIsMatch = AuthHelper.comparehash(
@@ -43,7 +43,7 @@ class UserController {
 					);
 					if (passwordIsMatch) {
 						let token = AuthHelper.createToken({
-							id: userFound.id,
+							id: userFound._id,
 							name: userFound.name,
 							email: userFound.email,
 							role: userFound.role
