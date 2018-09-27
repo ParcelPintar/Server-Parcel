@@ -68,6 +68,15 @@ describe("parcel CRUD", function() {
 					done();
 				});
 		});
+		it("should get not found", done => {
+			chai.request(app)
+				.get(`/parcels/${tempPPId.slice(1) + "1"}`)
+				.end((err, response) => {
+					response.status.should.equal(404);
+					response.body.should.have.property("error");
+					done();
+				});
+		});
 	});
 	describe("PATCH /parcels/:id", () => {
 		it("should return updated GPS", done => {
@@ -98,6 +107,17 @@ describe("parcel CRUD", function() {
 			chai.request(app)
 				.patch(`/parcels/${tempPPId}`)
 				.send({ gyro: "a" })
+				.end((err, response) => {
+					response.status.should.equal(400);
+					response.body.should.have.property("error");
+					done();
+				});
+		});
+
+		it("should return 400 if the parcel ID is invalid", done => {
+			chai.request(app)
+				.patch(`/parcels/${tempPPId.slice(1) + "a"}`)
+				.send({ long: "a", lat: "meh", threshold: false })
 				.end((err, response) => {
 					response.status.should.equal(400);
 					response.body.should.have.property("error");

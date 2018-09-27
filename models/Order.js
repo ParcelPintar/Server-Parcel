@@ -5,7 +5,7 @@ const orderSchema = Schema(
 	{
 		status: {
 			type: Schema.Types.String,
-			enum: ["Pickup", "Ongoing", "Completed", "Delayed"],
+			enum: ["Pickup", "Ongoing", "Completed", "Delayed", "Cancelled"],
 			required: true,
 			default: "Pickup"
 		}, // delayed, arrived, etc.

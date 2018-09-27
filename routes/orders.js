@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const Order = require("../controllers/order");
+const AuthMiddleware = require("../middlewares/authMiddleware");
 
 router
 	.route("/")
@@ -9,7 +10,7 @@ router
 router
 	.route("/:id")
 	.get(Order.getOrderById)
-	.delete(Order.remove)
+	.delete(AuthMiddleware.checkifAdmin, Order.remove)
 	.patch(Order.updateOrder);
 
 router.get("/me/receive", Order.getReceiveOrder);
